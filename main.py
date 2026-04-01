@@ -10,6 +10,21 @@
 import playerdata
 import enemies
 import loot
+import locations
+import characters
+
+## Variables
+
+location = None  # This variable will keep track of the player's current location in the game world. It will be updated as the player explores and moves between different areas.
+
+# Create a location registry for easy lookup by name
+location_registry = {
+    "village": locations.greenwood_village,
+    "tavern": locations.tavern,
+    "blacksmith": locations.blacksmith,
+    "general_store": locations.general_store,
+    "tavern_basement": locations.tavern_basement
+}
 
 ## Functions
 # The main functions in this file will include:
@@ -21,28 +36,36 @@ def new_game():
     player_name = input("> ")
     playerdata.player_data["name"] = player_name
     print(f"Hello, {player_name}! Your adventure begins now.")
+    global location
+    location = locations.greenwood_village  # Start the player in the village
     main_menu()
 
 def main_menu():
     # This function will present the main menu to the player and handle their input to navigate through the different options in the game.
     while True:
+        if location is not None:
+            print(f"\nYou are currently at: {location.name}")
+            print(location.description)
         print("\nMain Menu:")
         print("1. Explore")
-        print("2. Fight")
-        print("3. Inventory")
-        print("4. Quests")
-        print("5. Exit")
+        print("2. Inventory")
+        print("3. Quests")
+        print("4. Talk to characters")
+        print("5. Fight")
+        print("0. Exit")
         choice = input("> ")
         
         if choice == "1":
             explore()
         elif choice == "2":
-            fight()
-        elif choice == "3":
             manage_inventory()
-        elif choice == "4":
+        elif choice == "3":
             view_quests()
+        elif choice == "4":
+            talk_to_characters()
         elif choice == "5":
+            fight()
+        elif choice == "0":
             print("Thanks for playing! Goodbye!")
             break
         else:
@@ -50,19 +73,37 @@ def main_menu():
 
 def explore():
     # This function will handle the exploration aspect of the game, allowing the player to encounter enemies, find loot, and discover new areas.
-    # Currently, this is just a placeholder function that can be expanded upon in the future to include more complex exploration mechanics.
-    print("You venture into the unknown...")
-def fight():
-    # This function will handle the combat system, allowing the player to fight against enemies and gain experience points and loot.
-    # Currently, this is just a placeholder function that can be expanded upon in the future to include a more complex combat system with different enemy types, player abilities, and loot drops.
-    print("You prepare for battle...")
+    # This function will also update the player's current location variable as they move between different areas in the game world, and provide new information based on the location.
+    global location
+    print("You see the following exits: ")
+    for exit_name in location.exits:
+        print(f"- {exit_name}")
+    print("Where would you like to go?")
+    choice = input("> ")
+    if choice in location_registry and choice in location.exits:
+        location = location_registry[choice]
+        print(f"You move to {location.name}.")
+    else:
+        print("Invalid choice. Please try again.")
+
 def manage_inventory():
     # This function will allow the player to manage their inventory, including equipping items, using potions, and selling loot.
     # Currently, this is just a placeholder function that can be expanded upon in the future to include a more complex inventory management system with different item types, equipment slots, and a shop system for buying and selling items.
     print("You check your inventory...")
+
 def view_quests():
     # This function will allow the player to view their current quests, including any active quests and completed quests.
     # Currently, this is just a placeholder function that can be expanded upon in the future to include a more complex quest system with different quest types, objectives, and rewards.
     print("You review your quests...")
+
+def talk_to_characters():
+    # This function will allow the player to talk to characters in the game world, including NPCs and quest givers.
+    # Currently, this is just a placeholder function that can be expanded upon in the future to include a more complex dialogue system with different dialogue options, branching conversations, and character interactions.
+    print("You look around for characters to talk to...")
+
+def fight():
+    # This function will handle the combat system, allowing the player to fight against enemies and gain experience points and loot.
+    # Currently, this is just a placeholder function that can be expanded upon in the future to include a more complex combat system with different enemy types, player abilities, and loot drops.
+    print("You prepare for battle...")
 
 new_game()
