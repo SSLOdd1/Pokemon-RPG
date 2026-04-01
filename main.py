@@ -12,6 +12,9 @@ import enemies
 import loot
 import locations
 import characters
+import json
+import os
+from datetime import datetime
 
 ## Variables
 
@@ -41,6 +44,37 @@ def new_game():
     location = locations.greenwood_village  # Start the player in the village
     main_menu()
 
+def save_game():
+    # This function will save the player's progress, allowing them to continue from where they left off at a later time. This will involve writing the player's data and inventory to a file, so that it can be loaded when the player chooses to continue their game.
+    try:
+        # Create saves directory if needed
+        if not os.path.exists("saves"):
+            os.makedirs("saves")
+
+        # Prepare data to save
+        save_data = {
+            "metadata": {
+                "save_time": datetime.now().isoformat(),
+                "version": "1.0",
+                "character_name": playerdata.player_data["name"],
+                "level": playerdata.player_data["level"],
+                "location": location.name if location else None
+            },
+            "player_data": playerdata.player_data,
+            "inventory": playerdata.inventory
+        }
+
+        # Write save data to file
+        save_filename = f"saves/{playerdata.player_data['name']}_save.json"
+        with open(save_filename, "w") as save_file:
+            json.dump(save_data, save_file, indent=4)
+        print(f"Game saved successfully as {save_filename}!")
+
+    except IOError as e:
+        print(f"An error occurred while saving the game: {e}")
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+
 def load_game():
     # This function will load a saved game, allowing the player to continue from where they left off. This will involve reading the player's data and inventory from a file, and updating the game state accordingly.
     print("Loading game... (This feature is not yet implemented)")
@@ -57,6 +91,7 @@ def main_menu():
         print("3. Quests")
         print("4. Talk to characters")
         print("5. Fight")
+        print("9. Save Game")
         print("0. Exit")
         choice = input("> ")
         
@@ -70,6 +105,8 @@ def main_menu():
             talk_to_characters()
         elif choice == "5":
             fight()
+        elif choice == "9":
+            save_game()
         elif choice == "0":
             print("Thanks for playing! Goodbye!")
             break

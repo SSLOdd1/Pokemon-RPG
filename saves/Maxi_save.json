@@ -1,0 +1,40 @@
+{
+    "metadata": {
+        "save_time": "2026-04-01T00:13:14.934354",
+        "version": "1.0",
+        "character_name": "Maxi",
+        "level": 1,
+        "location": "Greenwood Village"
+    },
+    "player_data": {
+        "name": "Maxi",
+        "level": 1,
+        "health": 100,
+        "mana": 50,
+        "experience": 0,
+        "skills": []
+    },
+    "inventory": {
+        "equipped": {
+            "weapon": null,
+            "armor": null,
+            "accessories": {
+                "ring1": null,
+                "ring2": null,
+                "amulet": null,
+                "belt": null
+            }
+        },
+        "backpack": {
+            "potions": {},
+            "crafting_materials": {},
+            "loot": {},
+            "quest_items": {},
+            "equipment": {
+                "weapons": [],
+                "armor": [],
+                "accessories": []
+            }
+        }
+    }
+}
