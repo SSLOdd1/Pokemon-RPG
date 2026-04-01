@@ -147,6 +147,17 @@ def manage_inventory():
             print(f"Which accessory would you like to equip in {choice}? (name/back)")
             choice = input("> ")
             if choice in list_of_accessories:
+                if choice.slot == "ring":
+                    print("You have two ring slots. Which one would you like to equip this accessory in? (ring1/ring2/back)")
+                    slot_choice = input("> ")
+                    if slot_choice in ["ring1", "ring2"]:
+                        playerdata.inventory['equipped']['accessories'][slot_choice] = choice
+                        print(f"You have equipped {choice} in {slot_choice}.")
+                    elif slot_choice == "back":
+                        return
+                    else:
+                        print("Invalid choice. Please try again.")
+                        slot_choice = input("> ")
                 playerdata.inventory['equipped']['accessories'][choice] = choice
                 print(f"You have equipped {choice} in {choice}.")
         elif choice == "back":            
@@ -159,6 +170,7 @@ def manage_inventory():
     else: 
         print("Invalid choice. Please try again.")
         choice = input("> ")
+        
 def view_quests():
     # This function will allow the player to view their current quests, including any active quests and completed quests.
     # Currently, this is just a placeholder function that can be expanded upon in the future to include a more complex quest system with different quest types, objectives, and rewards.
