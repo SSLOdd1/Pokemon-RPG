@@ -43,19 +43,21 @@ player_data={
 
 inventory={
     "equipped": {
-        "weapon": None,  # e.g., {"name": "Wooden Sword", "damage": 10}
-        "armor": None,   # e.g., {"name": "Leather Armor", "defense": 5}
+        "weapon": None,  # e.g., {name, price, effect, damage}
+        "armor": None,   # e.g., {name, price, effect, defense}
         "accessories": {
-            "ring1": None,  # e.g., {"name": "Ring of Strength", "effect": "increases strength"}
-            "ring2": None,  # e.g., {"name": "Ring of Agility", "effect": "increases agility"}
-            "amulet": None,  # e.g., {"name": "Amulet of Protection", "effect": "reduces damage taken"}
-            "belt": None     # e.g., {"name": "Belt of Endurance", "effect": "increases stamina"}
+            "ring1": None,  # e.g., {name, slot, price, effect}
+            "ring2": None,
+            "amulet": None,
+            "belt": None
         }
     },
     "backpack": {
         # List of items, each as a dict with name, quantity, and optional details
         # e.g., {"name": "Health Potion", "quantity": 3, "description": "Restores 20 health points."},
-        "potions": {},
+        "potions": {
+            # Example: "Health Potion": {"quantity": 3, "description": "Restores 20 health points."}
+        },
         "crafting_materials": {},
         "loot": {},
         "quest_items": {},

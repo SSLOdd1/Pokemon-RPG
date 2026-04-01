@@ -166,11 +166,34 @@ def manage_inventory():
             print("Invalid choice. Please try again.")
             choice = input("> ")
     elif choice == "backpack":
-        pass  # Code to manage backpack items goes here
+        print("You check your backpack... You have the following sections: ")
+        for section in ["potions", "crafting_materials", "loot", "quest_items"]:
+            print(f"- {section.capitalize()}")
+        print("Which section would you like to view? (name/back)")
+        choice = input("> ")
+        if choice in ["potions", "crafting_materials", "loot", "quest_items"]:
+            print(f"{choice}:")
+            for item in playerdata.inventory['backpack'].get(choice, []):
+                print(f"- {item}")
+            if choice == "potions":
+                pass  # This is where the player would be able to use potions from their backpack
+            elif choice == "crafting_materials":
+                pass  # This is where the player would be able to use crafting materials from their backpack
+            elif choice == "loot":
+                for item in playerdata.inventory['backpack']['loot']:
+                    print(f"- {item}")
+            elif choice == "quest_items":
+                for item in playerdata.inventory['backpack']['quest_items']:
+                    print(f"- {item}")
+            elif choice == "back":
+                return
+            else:
+                print("Invalid choice. Please try again.")
+                choice = input("> ")
     else: 
         print("Invalid choice. Please try again.")
         choice = input("> ")
-        
+
 def view_quests():
     # This function will allow the player to view their current quests, including any active quests and completed quests.
     # Currently, this is just a placeholder function that can be expanded upon in the future to include a more complex quest system with different quest types, objectives, and rewards.
