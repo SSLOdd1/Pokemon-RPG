@@ -28,7 +28,6 @@ class Location:
         return self.name
 
 
-# Create sublocations (bottom-up approach)
 tavern_basement = Location(
     name="Greenwood Tavern Basement",
     description="A dimly lit basement beneath the tavern. It is rumored to be haunted, and some say that strange noises can be heard coming from down there at night.",

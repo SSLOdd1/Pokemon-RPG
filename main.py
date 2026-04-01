@@ -14,6 +14,7 @@ import locations
 import characters
 import json
 import os
+import random
 from datetime import datetime
 
 ## Variables
@@ -32,6 +33,23 @@ location_registry = {
 
 ## Functions
 # The main functions in this file will include:
+def start_menu():
+    # This function will present the player with the option to start a new game, load a saved game, or exit the game.
+    print("Welcome to the Pokemon/RPG game!")
+    print("1. Start New Game")
+    print("2. Load Game")
+    print("0. Exit")
+    choice = input("> ")
+    if choice == "1":
+        new_game()
+    elif choice == "2":
+        load_game()
+    elif choice == "0":
+        print("Thanks for playing! Goodbye!")
+        exit()
+    else:
+        print("Invalid choice. Please try again.")
+        start_menu()
 
 def new_game():
     # This function will start a new game, initializing the player's data and inventory, and presenting the main menu.
@@ -242,8 +260,18 @@ def talk_to_characters():
     print("You look around for characters to talk to...")
 
 def fight():
-    # This function will handle the combat system, allowing the player to fight against enemies and gain experience points and loot.
-    # Currently, this is just a placeholder function that can be expanded upon in the future to include a more complex combat system with different enemy types, player abilities, and loot drops.
+    # This function will handle looking for combat.
     print("You prepare for battle...")
+    if location is not None and location.enemies:
+        enemy = random.choices(location.enemies, weights=[enemy['probability'] for enemy in location.enemies])[0]
+        print(f"You encounter a {enemy['name']}!")
+        combat(enemy)
+    else:
+        print("There are no enemies here.")
 
-new_game()
+def combat(enemy):
+    # This function will handle the actual combat mechanics, including calculating damage, applying effects, and determining the outcome of the battle.
+    # Currently, this is just a placeholder function that can be expanded upon in the future to include a more complex combat system with different player abilities, enemy behaviors, and loot drops.
+    print(f"You fight the {enemy['name']}... (Combat system not yet implemented)")
+
+start_menu()
