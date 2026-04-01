@@ -51,8 +51,12 @@ inventory={
             "belt": None     # e.g., {"name": "Belt of Endurance", "effect": "increases stamina"}
         }
     },
-    "backpack": [
+    "backpack": {
         # List of items, each as a dict with name, quantity, and optional details
         # e.g., {"name": "Health Potion", "quantity": 3, "description": "Restores 20 health points."},
-    ]
+        "potions": {},
+        "crafting_materials": {},
+        "loot": {},
+        "quest_items": {}
+    }
 }

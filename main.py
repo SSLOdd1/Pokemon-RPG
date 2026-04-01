@@ -85,12 +85,15 @@ def explore():
         print(f"You move to {location.name}.")
     else:
         print("Invalid choice. Please try again.")
-
+    
 def manage_inventory():
     # This function will allow the player to manage their inventory, including equipping items, using potions, and selling loot.
     # Currently, this is just a placeholder function that can be expanded upon in the future to include a more complex inventory management system with different item types, equipment slots, and a shop system for buying and selling items.
     print("You check your inventory...")
-
+    for section in ["equipped", "backpack"]:
+        for item in playerdata.inventory.get(section, []):
+            print(f"- {item}")
+    
 def view_quests():
     # This function will allow the player to view their current quests, including any active quests and completed quests.
     # Currently, this is just a placeholder function that can be expanded upon in the future to include a more complex quest system with different quest types, objectives, and rewards.
