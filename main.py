@@ -271,7 +271,7 @@ def manage_inventory():
             choice = input("> ")
     elif choice == "backpack":
         print("You check your backpack... You have the following sections: ")
-        for section in ["potions", "crafting_materials", "loot", "quest_items"]:
+        for section in ["potions", "crafting_materials", "loot", "quest_items", "equipment"]:
             print(f"- {section.capitalize()}")
         print("Which section would you like to view? (name/back)")
         choice = input("> ")
@@ -288,6 +288,14 @@ def manage_inventory():
                     print(f"- {item}")
             elif choice == "quest_items":
                 for item in playerdata.inventory['backpack']['quest_items']:
+                    print(f"- {item}")
+            elif choice == "equipment":
+                print ("You check your backpack for equipment... You have the following weapons, armor, and accessories: ")
+                for item in playerdata.inventory['backpack']['equipment']['weapons']:
+                    print(f"- {item}")
+                for item in playerdata.inventory['backpack']['equipment']['armor']:
+                    print(f"- {item}")
+                for item in playerdata.inventory['backpack']['equipment']['accessories']:
                     print(f"- {item}")
             elif choice == "back":
                 return

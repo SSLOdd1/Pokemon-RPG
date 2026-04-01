@@ -4,11 +4,10 @@
 ## main.py
 
 combat code needs designing
-combat could have four basic choices, attack, strength, finesse, and ranged
-attack based on attack stat
-strength based on strength stat
-finesse based on dexterity stat
-ranged based on dex or solo stat?
+combat could have two basic choices, strength or finesse
+attack multiplied by attack stat
+strength based heavier on strength stat
+finesse based heavier on dexterity stat
 
 ## locations.py
 

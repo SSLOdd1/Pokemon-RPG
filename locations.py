@@ -79,7 +79,7 @@ greenwood_village = Location(
     characters=[],
     enemies=[],
     loot=[],
-    exits=["blacksmith", "general_store", "tavern"]
+    exits=["blacksmith", "general_store", "tavern", "greenwood_forest"]
 )
 
 royal_palace = Location(
@@ -89,4 +89,38 @@ royal_palace = Location(
     enemies=[],
     loot=[],
     exits=["greenwood_village"]
+)
+
+greenwood_forest = Location(
+    name="Greenwood Forest",
+    description="A dense and mysterious forest that surrounds Greenwood Village. It is home to a variety of creatures, some friendly and some hostile.",
+    characters=[],
+    enemies=[
+        {"name": "Goblin"},
+        {"name": "Goblin"},
+        {"name": "Orc"}
+    ],
+    loot=[
+        {"item": "Goblin Ear", "probability": 0.5},
+        {"item": "Orc Tusk", "probability": 0.3},
+        {"item": "Mysterious Herb", "probability": 0.2}
+    ],
+    exits=["greenwood_village", "greenwood_forest"]
+)
+
+orc_camp = Location(
+    name="Orc Camp",
+    description="A hidden camp deep within the forest, where a group of orcs has set up their base of operations. The camp is heavily guarded and filled with dangerous enemies.",
+    characters=[],
+    enemies=[
+        {"name": "Orc Warrior"},
+        {"name": "Orc Shaman"},
+        {"name": "Orc Leader"}
+    ],
+    loot=[
+        {"item": "Orc Hide", "probability": 0.5},
+        {"item": "Orc Tooth", "probability": 0.3},
+        {"item": "Mysterious Herb", "probability": 0.2}
+    ],
+    exits=["greenwood_forest"]
 )

@@ -18,8 +18,17 @@ player_data={
     "health": 100,
     "mana": 50,
     "experience": 0,
-    "skills": [],
-    "gold": 0
+    "gold": 0,
+    "attack": 1,
+    "defense": 1,
+    "strength": 1,
+    "dexterity": 1,
+    "intelligence": 1,
+    "charisma": 1,
+    "luck": 1,
+    "skills": []
+
+    
 }
 
 ## Inventory System

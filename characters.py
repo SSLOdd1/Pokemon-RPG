@@ -12,7 +12,7 @@ characters=[
     {
         "name": "Hormond the Blacksmith",
         "description": "A skilled blacksmith who can forge powerful weapons and armor.",
-        "dialogue": [],
+        "dialogue": ["Have you seen my cat? His name is Whiskers and he's very dear to me. I last saw him around the tavern, but I haven't been able to find him since."],
         "quests": [],
         "location": "blacksmith",
         "interactions": [
