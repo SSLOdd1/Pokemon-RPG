@@ -33,8 +33,10 @@ tavern_basement = Location(
     description="A dimly lit basement beneath the tavern. It is rumored to be haunted, and some say that strange noises can be heard coming from down there at night.",
     characters=[],
     enemies=[
-        {"name": "Rat", "probability": 0.7},
-        {"name": "Giant Spider", "probability": 0.3}
+        {"name": "Rat"},
+        {"name": "Rat"},
+        {"name": "Rat"},
+        {"name": "Giant Spider"}
     ],
     loot=[
         {"item": "Gold Lump", "probability": 0.5},

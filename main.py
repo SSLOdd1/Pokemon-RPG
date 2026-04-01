@@ -94,8 +94,57 @@ def save_game():
         print(f"An unexpected error occurred: {e}")
 
 def load_game():
-    # This function will load a saved game, allowing the player to continue from where they left off. This will involve reading the player's data and inventory from a file, and updating the game state accordingly.
-    print("Loading game... (This feature is not yet implemented)")
+    # This function will load a saved game
+    try:
+        # Check if saves directory exists
+        if not os.path.exists("saves"):
+            print("No saved games found.")
+            start_menu()
+            return
+
+        # List available save files
+        save_files = [f for f in os.listdir("saves") if f.endswith(".json")]
+        
+        if not save_files:
+            print("No saved games found.")
+            start_menu()
+            return
+
+        print("\nAvailable saves:")
+        for i, save_file in enumerate(save_files, 1):
+            print(f"{i}. {save_file}")
+        
+        # Let player choose which save to load
+        choice = input("> ")
+        
+        if not choice.isdigit() or int(choice) < 1 or int(choice) > len(save_files):
+            print("Invalid choice.")
+            start_menu()
+            return
+        
+        # Load the chosen save file
+        save_filename = f"saves/{save_files[int(choice) - 1]}"
+        with open(save_filename, "r") as save_file:
+            save_data = json.load(save_file)
+        
+        # Restore game state
+        playerdata.player_data = save_data["player_data"]
+        playerdata.inventory = save_data["inventory"]
+        
+        # Restore location
+        global location
+        location_name = save_data["metadata"]["location"]
+        location = location_registry.get(location_name, locations.greenwood_village)
+        
+        print(f"Game loaded! Welcome back, {playerdata.player_data['name']}!")
+        main_menu()
+
+    except json.JSONDecodeError:
+        print("Error: Save file is corrupted.")
+        start_menu()
+    except Exception as e:
+        print(f"An error occurred while loading the game: {e}")
+        start_menu()
 
 def main_menu():
     # This function will present the main menu to the player and handle their input to navigate through the different options in the game.

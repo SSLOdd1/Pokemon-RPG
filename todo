@@ -1,0 +1,31 @@
+### TO DO LIST ###
+### Just a list of ideas.
+
+## main.py
+
+combat code needs designing
+combat could have four basic choices, attack, strength, finesse, and ranged
+attack based on attack stat
+strength based on strength stat
+finesse based on dexterity stat
+ranged based on dex?
+
+different enemies have different attacks
+
+## locations.py
+
+## enemies.py
+
+enemies have different attacks
+
+## quests.py
+
+## loot.py
+
+## playerdata.py
+
+implement stats
+implement level up
+implement gold
+
+## General

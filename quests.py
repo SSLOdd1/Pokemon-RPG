@@ -13,4 +13,23 @@ finished_quests = []
 
 failed_quests = []
 
-inactive_quests = []
+inactive_quests = [
+    {
+        "name": "The Missing Cat",
+        "description": "Hormund has lost his beloved cat and is offering a reward for its safe return. The player must search the nearby area and find the cat, which may be hiding in a nearby location or may have been taken by a local enemy.",
+        "requirements": [], # code for tavern_basement being cleared, since the cat is likely hiding there
+        "rewards": [
+            {"type": "gold", "amount": 10},
+            {"type": "experience", "amount": 50}
+        ]
+    },
+    {
+        "name": "The Haunted Basement",
+        "description": "The tavern basement is rumored to be haunted, and some say that strange noises can be heard coming from down there at night. Arlene is offering a reward for anyone who can investigate the basement and find out what is causing the disturbances.",
+        "requirements": [], # code for tavern_basement being cleared, since the disturbances are likely caused by the enemies in there
+        "rewards": [
+            {"type": "gold", "amount": 50},
+            {"type": "experience", "amount": 100}
+        ]
+    }
+]
