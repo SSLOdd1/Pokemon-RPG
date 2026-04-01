@@ -80,3 +80,12 @@ greenwood_village = Location(
     loot=[],
     exits=["blacksmith", "general_store", "tavern"]
 )
+
+royal_palace = Location(
+    name="Royal Palace",
+    description="The grand residence of the king and queen, filled with ornate decorations and guarded by royal knights.",
+    characters=[],
+    enemies=[],
+    loot=[],
+    exits=["greenwood_village"]
+)

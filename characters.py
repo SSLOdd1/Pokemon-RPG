@@ -6,8 +6,67 @@
 # - dialogue: A list of any dialogue lines that the character may have, along with any conditions or triggers for when they will be said. May be blank.
 # - quests: A list of any quests that the character may offer to the player, along with their descriptions and rewards. May be blank.
 # - location: The location where the character can be found. This will be used to populate the characters in each location, and may also be used to trigger certain events or quests when the player interacts with the character. May be blank if the character is not tied to a specific location.
+# - Interactions: A list of any special interactions or abilities that the character may have, such as being able to teach the player new skills, open for commerce, or provide unique items. May be blank.
 
 characters=[
-    {}
+    {
+        "name": "Hormond the Blacksmith",
+        "description": "A skilled blacksmith who can forge powerful weapons and armor.",
+        "dialogue": [],
+        "quests": [],
+        "location": "blacksmith",
+        "interactions": [
+            {
+                "type": "crafting",
+                "description": "Hormond can forge weapons and armor for the player, using materials that the player provides. He can also repair damaged equipment."
+            },
+            {
+                "type": "commerce",
+                "description": "Hormond can sell the player items, equipment, and materials for gold."
+            }
+        ]
+    },
+    {
+        "name": "Erhle the Merchant",
+        "description": "A shrewd merchant who can sell the player a variety of goods, including potions, scrolls, and rare items.",
+        "dialogue": [],
+        "quests": [],
+        "location": "general_store",
+        "interactions": [
+            {
+                "type": "commerce",
+                "description": "Erhle can sell the player a variety of goods, including potions, scrolls, and rare items."
+            }
+        ]
+    },
+    {
+        "name": "Arlene the Tavern Keeper",
+        "description": "A friendly tavern keeper who can provide the player with food, drink, and a place to rest. She may also have information about local rumors and quests.",
+        "dialogue": [],
+        "quests": [],
+        "location": "tavern",
+        "interactions": [
+            {
+                "type": "commerce",
+                "description": "Arlene can provide the player with food and drink."
+            },
+            {
+                "type": "quest_giver",
+                "description": "Arlene may offer the player quests related to the tavern."
+            }
+        ]
+    },
+    {
+        "name": "Gwen, Ruler of Greenwood",
+        "description": "The benevolent ruler of Greenwood Village, known for her wisdom and kindness.",
+        "dialogue": [],
+        "quests": [],
+        "location": "royal_palace",
+        "interactions": [
+            {
+                "type": "quest_giver",
+                "description": "Gwen may offer the player quests related to the safety and prosperity of Greenwood Village."
+            }
+        ]
+    }
 ]
-    

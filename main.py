@@ -23,7 +23,8 @@ location_registry = {
     "tavern": locations.tavern,
     "blacksmith": locations.blacksmith,
     "general_store": locations.general_store,
-    "tavern_basement": locations.tavern_basement
+    "tavern_basement": locations.tavern_basement,
+    "royal_palace": locations.royal_palace
 }
 
 ## Functions
@@ -39,6 +40,10 @@ def new_game():
     global location
     location = locations.greenwood_village  # Start the player in the village
     main_menu()
+
+def load_game():
+    # This function will load a saved game, allowing the player to continue from where they left off. This will involve reading the player's data and inventory from a file, and updating the game state accordingly.
+    print("Loading game... (This feature is not yet implemented)")
 
 def main_menu():
     # This function will present the main menu to the player and handle their input to navigate through the different options in the game.
@@ -88,12 +93,37 @@ def explore():
     
 def manage_inventory():
     # This function will allow the player to manage their inventory, including equipping items, using potions, and selling loot.
-    # Currently, this is just a placeholder function that can be expanded upon in the future to include a more complex inventory management system with different item types, equipment slots, and a shop system for buying and selling items.
+    # This function will also include changing equipment, using items, and small crafting capabilities.
     print("You check your inventory...")
     for section in ["equipped", "backpack"]:
         for item in playerdata.inventory.get(section, []):
             print(f"- {item}")
-    
+        print("Would you like to manage your equipment, or view your backpack?")
+    choice = input("> ")
+    if choice == "equipment":
+        print("You manage your equipment...")
+        for item in playerdata.inventory.get("equipped", []):
+            print(f"- {item}")
+        print("Would you like to change your equipment, or go back to the main menu? (slot/back)")
+        choice = input("> ")
+        if choice == "weapon":
+            print("You change your weapon...")
+            # Code to change weapon goes here
+        elif choice == "armor":
+            print("You change your armor...")
+            # Code to change armor goes here
+        elif choice in ["ring1", "ring2", "amulet", "belt"]:
+            print(f"You change your {choice}...")
+            # Code to change accessory goes here
+        elif choice == "back":            return
+        else:
+            print("Invalid choice. Please try again.")
+            choice = input("> ")
+    elif choice == "backpack":
+        break
+    else: 
+        print("Invalid choice. Please try again.")
+        choice = input("> ")
 def view_quests():
     # This function will allow the player to view their current quests, including any active quests and completed quests.
     # Currently, this is just a placeholder function that can be expanded upon in the future to include a more complex quest system with different quest types, objectives, and rewards.
