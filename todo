@@ -8,9 +8,7 @@ combat could have four basic choices, attack, strength, finesse, and ranged
 attack based on attack stat
 strength based on strength stat
 finesse based on dexterity stat
-ranged based on dex?
-
-different enemies have different attacks
+ranged based on dex or solo stat?
 
 ## locations.py
 
@@ -26,6 +24,14 @@ enemies have different attacks
 
 implement stats
 implement level up
-implement gold
+
+## attacks.py
+
+design enemy attacks
 
 ## General
+
+Maybe a way to scrounge for coin?
+Maybe a way to perform for coin, based on charisma?
+Maybe a karma/credit system with locals?
+-actions unlock abilities and affect sales

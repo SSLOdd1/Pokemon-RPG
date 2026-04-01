@@ -10,6 +10,7 @@
 # - mana: The player's current mana points. The player starts with a certain amount of mana, which can be increased by leveling up or equipping certain items.
 # - experience: The player's current experience points. The player gains experience points from defeating enemies and completing quests, which can be used to level up.
 # - skills: A list of the player's skills and abilities. As the player levels up, they will gain access to new skills and abilities that can be used in combat or for exploration.
+# - gold: The player's current amount of gold. Gold can be used to purchase items, equipment, and services from merchants and other characters in the game world.   
 
 player_data={
     "name": "Player1",
@@ -17,7 +18,8 @@ player_data={
     "health": 100,
     "mana": 50,
     "experience": 0,
-    "skills": []
+    "skills": [],
+    "gold": 0
 }
 
 ## Inventory System
