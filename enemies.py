@@ -25,6 +25,21 @@ enemies=[
         "experience": 25
     },
     {
+        "name": "Rat",
+        "health": 20,
+        "attack": 3,
+        "defense": 1,
+        "type": "normal",
+        "description": "A common pest that can be found in many locations. They are weak but can be a nuisance if they swarm the player.",
+        "loot": [
+            {"item": "Rat Tail", "probability": 0.5},
+            {"item": "Rat Ear", "probability": 0.3},
+            {"item": "Rat Fur", "probability": 0.2}
+        ],
+        "experience": 10
+
+    },
+    {
         "name": "Skeleton Warrior",
         "health": 50,
         "attack": 10,

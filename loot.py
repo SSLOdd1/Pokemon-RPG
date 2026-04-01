@@ -38,6 +38,24 @@ loot=[
         "effect": None
     },
     {
+        "item": "Rat Tail",
+        "price": 5,
+        "description": "The tail of a rat. It can be sold to merchants for a small profit.",
+        "effect": None
+    },
+    {
+        "item": "Rat Ear",
+        "price": 5,
+        "description": "The ear of a rat. It can be sold to merchants for a small profit.",
+        "effect": None
+    },
+    {
+        "item": "Rat Fur",
+        "price": 10,
+        "description": "The fur of a rat. It can be used to craft various items or sold for profit.",
+        "effect": None
+    },
+    {
         "item": "Bone Shard",
         "price": 25,
         "description": "A sharp fragment of bone. It can be used as a makeshift weapon or sold for profit.",
