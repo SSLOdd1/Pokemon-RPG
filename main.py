@@ -107,20 +107,55 @@ def manage_inventory():
         print("Would you like to change your equipment, or go back to the main menu? (slot/back)")
         choice = input("> ")
         if choice == "weapon":
-            print("You change your weapon...")
-            # Code to change weapon goes here
+            print(f"You change your weapon... Currently equipped: {playerdata.inventory['equipped']['weapon']}")
+            list_of_weapons = [item for item in playerdata.inventory['backpack']['equipment']['weapons']]
+            print("Available weapons in your backpack:")
+            for weapon in list_of_weapons:
+                print(f"- {weapon}")
+            print("Which weapon would you like to equip? (name/back)")
+            choice = input("> ")
+            if choice in list_of_weapons:
+                playerdata.inventory['equipped']['weapon'] = choice
+                print(f"You have equipped {choice}.")
+            elif choice == "back":
+                return
+            else:
+                print("Invalid choice. Please try again.")
+                choice = input("> ")
         elif choice == "armor":
-            print("You change your armor...")
-            # Code to change armor goes here
-        elif choice in ["ring1", "ring2", "amulet", "belt"]:
-            print(f"You change your {choice}...")
-            # Code to change accessory goes here
-        elif choice == "back":            return
+            print(f"You change your armor... Currently equipped: {playerdata.inventory['equipped']['armor']}")
+            list_of_armor = [item for item in playerdata.inventory['backpack']['equipment']['armor']]
+            print("Available armor in your backpack:")
+            for armor in list_of_armor:
+                print(f"- {armor}")
+            print("Which armor would you like to equip? (name/back)")
+            choice = input("> ")
+            if choice in list_of_armor:
+                playerdata.inventory['equipped']['armor'] = choice
+                print(f"You have equipped {choice}.")
+            elif choice == "back":
+                return
+            else:
+                print("Invalid choice. Please try again.")
+                choice = input("> ")
+        elif choice == "accessories":
+            print(f"You change your accessories. You have the following equipped: {playerdata.inventory['equipped']['accessories']}")
+            list_of_accessories = [item for item in playerdata.inventory['backpack']['equipment']['accessories']]
+            print("Available accessories in your backpack:")
+            for accessory in list_of_accessories:
+                print(f"- {accessory}")
+            print(f"Which accessory would you like to equip in {choice}? (name/back)")
+            choice = input("> ")
+            if choice in list_of_accessories:
+                playerdata.inventory['equipped']['accessories'][choice] = choice
+                print(f"You have equipped {choice} in {choice}.")
+        elif choice == "back":            
+            return
         else:
             print("Invalid choice. Please try again.")
             choice = input("> ")
     elif choice == "backpack":
-        break
+        pass  # Code to manage backpack items goes here
     else: 
         print("Invalid choice. Please try again.")
         choice = input("> ")

@@ -39,6 +39,7 @@ player_data={
 # - Crafting Materials: Items that can be used to craft new equipment or consumables.
 # - Loot: Items that can be obtained from defeating enemies or completing quests. These can include gold, gems, and other valuable items.
 # - Quest Items: Special items that are required to complete certain quests. These items cannot be sold or used outside of their intended quest.
+# - Equipment: Items that the player has acquired but is not currently equipped. These can be stored in the backpack until the player decides to equip them.
 
 inventory={
     "equipped": {
@@ -57,6 +58,11 @@ inventory={
         "potions": {},
         "crafting_materials": {},
         "loot": {},
-        "quest_items": {}
+        "quest_items": {},
+        "equipment": {
+            "weapons": [],
+            "armor": [],
+            "accessories": []
+        }
     }
 }
