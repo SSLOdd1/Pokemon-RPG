@@ -8,6 +8,7 @@
 # - enemies: A list of enemies that can be found in the location, along with their probabilities of appearing.
 # - loot: A list of items that can be found in the location, along with their probabilities of appearing.
 # - exits: A list of names representing areas accessible from the main location.
+# - interactions: A list of any special interactions or events that can occur in the location, such as hidden passages, puzzles, or unique environmental features. May be blank.
 
 
 class Location:
@@ -43,7 +44,8 @@ tavern_basement = Location(
         {"item": "Spider Silk", "probability": 0.3},
         {"item": "Rusty Dagger", "probability": 0.2}
     ],
-    exits=["tavern"]
+    exits=["tavern"],
+    interactions=[]
 )
 
 tavern = Location(
@@ -52,7 +54,8 @@ tavern = Location(
     characters=[],
     enemies=[],
     loot=[],
-    exits=["tavern_basement", "greenwood_village"]
+    exits=["tavern_basement", "greenwood_village"],
+    interactions=[]
 )
 
 blacksmith = Location(
@@ -61,7 +64,8 @@ blacksmith = Location(
     characters=[],
     enemies=[],
     loot=[],
-    exits=["greenwood_village"]
+    exits=["greenwood_village"],
+    interactions=[]
 )
 
 general_store = Location(
@@ -70,7 +74,8 @@ general_store = Location(
     characters=[],
     enemies=[],
     loot=[],
-    exits=["greenwood_village"]
+    exits=["greenwood_village"],
+    interactions=[]
 )
 
 greenwood_village = Location(
@@ -79,7 +84,8 @@ greenwood_village = Location(
     characters=[],
     enemies=[],
     loot=[],
-    exits=["blacksmith", "general_store", "tavern", "greenwood_forest"]
+    exits=["blacksmith", "general_store", "tavern", "greenwood_forest"],
+    interactions=[]
 )
 
 royal_palace = Location(
@@ -88,7 +94,9 @@ royal_palace = Location(
     characters=[],
     enemies=[],
     loot=[],
-    exits=["greenwood_village"]
+    exits=["greenwood_village"],
+    interactions=[]
+
 )
 
 greenwood_forest = Location(
@@ -105,7 +113,8 @@ greenwood_forest = Location(
         {"item": "Orc Tusk", "probability": 0.3},
         {"item": "Mysterious Herb", "probability": 0.2}
     ],
-    exits=["greenwood_village", "greenwood_forest"]
+    exits=["greenwood_village", "greenwood_forest"],
+    interactions=[]
 )
 
 orc_camp = Location(
@@ -122,5 +131,6 @@ orc_camp = Location(
         {"item": "Orc Tooth", "probability": 0.3},
         {"item": "Mysterious Herb", "probability": 0.2}
     ],
-    exits=["greenwood_forest"]
+    exits=["greenwood_forest"],
+    interactions=[]
 )

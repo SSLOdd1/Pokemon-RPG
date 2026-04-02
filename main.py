@@ -15,6 +15,9 @@ import characters
 import json
 import os
 import random
+import math
+import quests
+import dialogue
 from datetime import datetime
 
 ## Variables
@@ -158,6 +161,10 @@ def main_menu():
         print("3. Quests")
         print("4. Talk to characters")
         print("5. Fight")
+        if location == locations.tavern:
+            print("6. Perform for coin")
+        elif location == locations.greenwood_village:
+            print("6. Beg for coin")
         print("9. Save Game")
         print("0. Exit")
         choice = input("> ")
@@ -172,6 +179,13 @@ def main_menu():
             talk_to_characters()
         elif choice == "5":
             fight()
+        elif choice == "6":
+            if location == locations.tavern:
+                perform()
+            elif location == locations.greenwood_village:
+                beg()
+            else:
+                print("This option is not available in your current location.")
         elif choice == "9":
             save_game()
         elif choice == "0":
@@ -331,4 +345,23 @@ def combat(enemy):
     # Currently, this is just a placeholder function that can be expanded upon in the future to include a more complex combat system with different player abilities, enemy behaviors, and loot drops.
     print(f"You fight the {enemy['name']}... (Combat system not yet implemented)")
 
+def beg():
+    # This function will allow the player to beg for coin in the village.
+    print("You beg for coin in the village...")
+    earned_coin = math.ceil(random.randint(0, 5) * playerdata.player_data.charisma)  # Randomly earn between 0 and 5 coins, times charisma stat
+    playerdata.player_data["gold"] += earned_coin
+    print(f"You earned {earned_coin} gold from begging.")
+
+def perform():
+    # This function will allow the player to perform for coin in the tavern.
+    if location != locations.tavern:
+        print("You can only perform for coin in the tavern! This should never be called if the player is not in the tavern, but if so, please contact the developer.")
+    else:
+        if playerdata.inventory.quest_items.get("lute"):
+            print("You perform for coin in the tavern...")
+            earned_coin = math.ceil(random.randint(0, 10) * playerdata.player_data.charisma)  # Randomly earn between 0 and 10 coins, times charisma stat
+            playerdata.player_data["gold"] += earned_coin
+            print(f"You earned {earned_coin} gold from performing.")
+        else:
+            print("You don't have a lute to perform with! Maybe you can find one in the blacksmith or general store.")
 start_menu()
