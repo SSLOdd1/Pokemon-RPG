@@ -131,7 +131,12 @@ def load_game():
             save_data = json.load(save_file)
         
         # Restore game state
-        playerdata.player_data = save_data["player_data"]
+        # Merge saved player_data with defaults to preserve any new keys added to the game
+        loaded_data = save_data["player_data"]
+        for key in playerdata.player_data:
+            if key not in loaded_data:
+                loaded_data[key] = playerdata.player_data[key]
+        playerdata.player_data = loaded_data
         playerdata.inventory = save_data["inventory"]
         
         # Restore location
@@ -216,79 +221,105 @@ def manage_inventory():
     for section in ["equipped", "backpack"]:
         for item in playerdata.inventory.get(section, []):
             print(f"- {item}")
-        print("Would you like to manage your equipment, or view your backpack?")
+    print(f"You have {playerdata.player_data['gold']} gold.")
+    print("What would you like to do?")
+    print("1. Manage Equipment")
+    print("2. View Backpack")
+    print("0. Back")
     choice = input("> ")
-    if choice == "equipment":
+    if choice == "1":
         print("You manage your equipment...")
         for item in playerdata.inventory.get("equipped", []):
             print(f"- {item}")
-        print("Would you like to change your equipment, or go back to the main menu? (slot/back)")
+        print("Which slot would you like to change?")
+        print("1. Weapon")
+        print("2. Armor")
+        print("3. Accessories")
+        print("0. Back")
         choice = input("> ")
-        if choice == "weapon":
+        if choice == "1":
             print(f"You change your weapon... Currently equipped: {playerdata.inventory['equipped']['weapon']}")
             list_of_weapons = [item for item in playerdata.inventory['backpack']['equipment']['weapons']]
             print("Available weapons in your backpack:")
-            for weapon in list_of_weapons:
-                print(f"- {weapon}")
-            print("Which weapon would you like to equip? (name/back)")
+            for i, weapon in enumerate(list_of_weapons, 1):
+                print(f"{i}. {weapon}")
+            print("0. Back")
+            print("Which weapon would you like to equip?")
             choice = input("> ")
-            if choice in list_of_weapons:
-                playerdata.inventory['equipped']['weapon'] = choice
-                print(f"You have equipped {choice}.")
-            elif choice == "back":
+            if choice.isdigit() and 1 <= int(choice) <= len(list_of_weapons):
+                selected_weapon = list_of_weapons[int(choice) - 1]
+                playerdata.inventory['equipped']['weapon'] = selected_weapon
+                print(f"You have equipped {selected_weapon}.")
+            elif choice == "0":
                 return
             else:
                 print("Invalid choice. Please try again.")
-                choice = input("> ")
-        elif choice == "armor":
+        elif choice == "2":
             print(f"You change your armor... Currently equipped: {playerdata.inventory['equipped']['armor']}")
             list_of_armor = [item for item in playerdata.inventory['backpack']['equipment']['armor']]
             print("Available armor in your backpack:")
-            for armor in list_of_armor:
-                print(f"- {armor}")
-            print("Which armor would you like to equip? (name/back)")
+            for i, armor in enumerate(list_of_armor, 1):
+                print(f"{i}. {armor}")
+            print("0. Back")
+            print("Which armor would you like to equip?")
             choice = input("> ")
-            if choice in list_of_armor:
-                playerdata.inventory['equipped']['armor'] = choice
-                print(f"You have equipped {choice}.")
-            elif choice == "back":
+            if choice.isdigit() and 1 <= int(choice) <= len(list_of_armor):
+                selected_armor = list_of_armor[int(choice) - 1]
+                playerdata.inventory['equipped']['armor'] = selected_armor
+                print(f"You have equipped {selected_armor}.")
+            elif choice == "0":
                 return
             else:
                 print("Invalid choice. Please try again.")
-                choice = input("> ")
-        elif choice == "accessories":
+        elif choice == "3":
             print(f"You change your accessories. You have the following equipped: {playerdata.inventory['equipped']['accessories']}")
             list_of_accessories = [item for item in playerdata.inventory['backpack']['equipment']['accessories']]
             print("Available accessories in your backpack:")
-            for accessory in list_of_accessories:
-                print(f"- {accessory}")
-            print(f"Which accessory would you like to equip in {choice}? (name/back)")
+            for i, accessory in enumerate(list_of_accessories, 1):
+                print(f"{i}. {accessory}")
+            print("0. Back")
+            print("Which accessory would you like to equip?")
             choice = input("> ")
-            if choice in list_of_accessories:
-                if choice.slot == "ring":
-                    print("You have two ring slots. Which one would you like to equip this accessory in? (ring1/ring2/back)")
-                    slot_choice = input("> ")
-                    if slot_choice in ["ring1", "ring2"]:
-                        playerdata.inventory['equipped']['accessories'][slot_choice] = choice
-                        print(f"You have equipped {choice} in {slot_choice}.")
-                    elif slot_choice == "back":
-                        return
-                    else:
-                        print("Invalid choice. Please try again.")
-                        slot_choice = input("> ")
-                playerdata.inventory['equipped']['accessories'][choice] = choice
-                print(f"You have equipped {choice} in {choice}.")
-        elif choice == "back":            
+            if choice.isdigit() and 1 <= int(choice) <= len(list_of_accessories):
+                selected_accessory = list_of_accessories[int(choice) - 1]
+                print("You have two ring slots. Which one would you like to equip this accessory in?")
+                print("1. Ring Slot 1")
+                print("2. Ring Slot 2")
+                print("3. Amulet")
+                print("4. Belt")
+                print("0. Back")
+                slot_choice = input("> ")
+                if slot_choice == "1":
+                    playerdata.inventory['equipped']['accessories']['ring1'] = selected_accessory
+                    print(f"You have equipped {selected_accessory} in ring slot 1.")
+                elif slot_choice == "2":
+                    playerdata.inventory['equipped']['accessories']['ring2'] = selected_accessory
+                    print(f"You have equipped {selected_accessory} in ring slot 2.")
+                elif slot_choice == "3":
+                    playerdata.inventory['equipped']['accessories']['amulet'] = selected_accessory
+                    print(f"You have equipped {selected_accessory} as amulet.")
+                elif slot_choice == "4":
+                    playerdata.inventory['equipped']['accessories']['belt'] = selected_accessory
+                    print(f"You have equipped {selected_accessory} as belt.")
+                elif slot_choice == "0":
+                    return
+            elif choice == "0":
+                return
+        elif choice == "0":            
             return
         else:
             print("Invalid choice. Please try again.")
             choice = input("> ")
-    elif choice == "backpack":
+    elif choice == "2":
         print("You check your backpack... You have the following sections: ")
-        for section in ["potions", "crafting_materials", "loot", "quest_items", "equipment"]:
-            print(f"- {section.capitalize()}")
-        print("Which section would you like to view? (name/back)")
+        sections = ["potions", "crafting_materials", "loot", "quest_items", "equipment"]
+        for i, section in enumerate(sections, 1):
+            print(f"{i}. {section.capitalize()}")
+        print("0. Back")
+        print("Which section would you like to view?")
         choice = input("> ")
+        if choice.isdigit() and 1 <= int(choice) <= len(sections):
+            choice = sections[int(choice) - 1]
         if choice in ["potions", "crafting_materials", "loot", "quest_items"]:
             print(f"{choice}:")
             for item in playerdata.inventory['backpack'].get(choice, []):
@@ -304,21 +335,21 @@ def manage_inventory():
                 for item in playerdata.inventory['backpack']['quest_items']:
                     print(f"- {item}")
             elif choice == "equipment":
-                print ("You check your backpack for equipment... You have the following weapons, armor, and accessories: ")
+                print("You check your backpack for equipment... You have the following weapons, armor, and accessories: ")
                 for item in playerdata.inventory['backpack']['equipment']['weapons']:
                     print(f"- {item}")
                 for item in playerdata.inventory['backpack']['equipment']['armor']:
                     print(f"- {item}")
                 for item in playerdata.inventory['backpack']['equipment']['accessories']:
                     print(f"- {item}")
-            elif choice == "back":
-                return
-            else:
-                print("Invalid choice. Please try again.")
-                choice = input("> ")
+        elif choice == "0":
+            return
+        else:
+            print("Invalid choice. Please try again.")
+    elif choice == "0": 
+        return
     else: 
         print("Invalid choice. Please try again.")
-        choice = input("> ")
 
 def view_quests():
     # This function will allow the player to view their current quests, including any active quests and completed quests.
@@ -348,7 +379,7 @@ def combat(enemy):
 def beg():
     # This function will allow the player to beg for coin in the village.
     print("You beg for coin in the village...")
-    earned_coin = math.ceil(random.randint(0, 5) * playerdata.player_data.charisma)  # Randomly earn between 0 and 5 coins, times charisma stat
+    earned_coin = math.ceil(random.randint(0, 5) * playerdata.player_data["charisma"])  # Randomly earn between 0 and 5 coins, times charisma stat
     playerdata.player_data["gold"] += earned_coin
     print(f"You earned {earned_coin} gold from begging.")
 
@@ -359,7 +390,7 @@ def perform():
     else:
         if playerdata.inventory.quest_items.get("lute"):
             print("You perform for coin in the tavern...")
-            earned_coin = math.ceil(random.randint(0, 10) * playerdata.player_data.charisma)  # Randomly earn between 0 and 10 coins, times charisma stat
+            earned_coin = math.ceil(random.randint(0, 10) * playerdata.player_data["charisma"])  # Randomly earn between 0 and 10 coins, times charisma stat
             playerdata.player_data["gold"] += earned_coin
             print(f"You earned {earned_coin} gold from performing.")
         else:

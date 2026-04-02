@@ -14,13 +14,14 @@
 class Location:
     """Represents a location in the game world."""
     
-    def __init__(self, name: str, description: str, characters: list = None, enemies: list = None, loot: list = None, exits: list = None):
+    def __init__(self, name: str, description: str, characters: list = None, enemies: list = None, loot: list = None, exits: list = None, interactions: list = None):
         self.name = name
         self.description = description
         self.characters = characters or []
         self.enemies = enemies or []
         self.loot = loot or []
         self.exits = exits or []
+        self.interactions = interactions or []
     
     def __repr__(self):
         return f"Location(name='{self.name}')"

@@ -1,10 +1,10 @@
 {
     "metadata": {
-        "save_time": "2026-04-01T00:54:43.898438",
+        "save_time": "2026-04-02T00:53:09.847407",
         "version": "1.0",
         "character_name": "Maxi",
         "level": 1,
-        "location": "Greenwood Blacksmith"
+        "location": "Greenwood Village"
     },
     "player_data": {
         "name": "Maxi",
@@ -12,7 +12,15 @@
         "health": 100,
         "mana": 50,
         "experience": 0,
-        "skills": []
+        "skills": [],
+        "gold": 3,
+        "attack": 1,
+        "defense": 1,
+        "strength": 1,
+        "dexterity": 1,
+        "intelligence": 1,
+        "charisma": 1,
+        "luck": 1
     },
     "inventory": {
         "equipped": {
