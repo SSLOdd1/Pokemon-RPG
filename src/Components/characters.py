@@ -42,7 +42,7 @@ characters=[
     {
         "name": "Arlene the Tavern Keeper",
         "description": "A friendly tavern keeper who can provide the player with food, drink, and a place to rest. She may also have information about local rumors and quests.",
-        "dialogue": [],
+        "dialogue_id": "Arlene_dialogue",
         "quests": [],
         "location": "tavern",
         "interactions": [

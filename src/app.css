@@ -19,11 +19,126 @@ body,
 
 /* MAIN SCREEN */
 .main-screen {
-  background: #1e1e1e;
+  background: radial-gradient(circle at top, #2a2a35 0%, #17171d 55%, #111114 100%);
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 2rem;
   border-bottom: 2px solid #444;
+}
+
+.main-menu-card {
+  width: min(720px, 100%);
+  padding: 2rem 2.25rem;
+  border-radius: 20px;
+  background: rgba(20, 20, 28, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(10px);
+}
+
+.main-menu-header {
+  margin-bottom: 1.5rem;
+}
+
+.main-menu-location {
+  display: grid;
+  gap: 0.75rem;
+  color: #d7dbe3;
+  line-height: 1.6;
+}
+
+.main-menu-location p,
+.main-menu-location h3 {
+  margin: 0;
+}
+
+.main-menu-location-label {
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #9aa3b2;
+}
+
+.main-menu-location h3 {
+  font-size: 1.5rem;
+  color: #f2f4f8;
+}
+
+.main-menu-location-description {
+  color: #d7dbe3;
+}
+
+.main-menu-divider {
+  height: 1px;
+  margin: 1.25rem 0 1.25rem;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.18), transparent);
+}
+
+.main-menu-kicker {
+  margin: 0 0 0.35rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #9aa3b2;
+}
+
+.main-menu-header h2 {
+  margin: 0;
+  font-size: 2rem;
+  line-height: 1.1;
+}
+
+.main-menu-subtitle {
+  margin: 0.5rem 0 0;
+  color: #b7bfcc;
+}
+
+.main-menu-options {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.main-menu-options li {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.9rem 1rem;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.menu-key {
+  min-width: 2rem;
+  height: 2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #f4d06f 0%, #d7a93f 100%);
+  color: #221b08;
+  font-weight: 700;
+  flex: 0 0 auto;
+}
+
+.menu-label {
+  font-size: 1rem;
+  color: #f2f4f8;
+}
+
+@media (max-width: 640px) {
+  .main-menu-card {
+    padding: 1.5rem;
+  }
+
+  .main-menu-options {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* PLAYER INPUT SECTION */

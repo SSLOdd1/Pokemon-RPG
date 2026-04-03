@@ -25,11 +25,7 @@ export default function App() {
           onOptions={() => {
             // Placeholder for future options menu
             alert("Options menu is not implemented yet.");
-          }}
-          onQuit={() => {
-            // In-browser apps cannot close themselves reliably.
-            alert("Quit is not available in the browser.");
-          }}
+          }}  
         />
       )}
 

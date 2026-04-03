@@ -11,13 +11,14 @@
 
 Hormond_dialogue = [
     {
+        "id": "Hormond_greeting",
         "text": "Have you seen my cat? His name is Whiskers and he's very dear to me. I last saw him around the tavern, but I haven't been able to find him since.",
         "conditions": [lambda finished_quests: "The Missing Cat" not in finished_quests],
         "responses": [
             {
                 "text": "I haven't seen your cat, but I'll keep an eye out for him.",
                 "requirements": [],
-                "effects": []
+                "effects": {"type": "exit_dialogue"}
             },
             {
                 "text": "I think I saw a cat in the tavern basement. Maybe I'll check there.",
@@ -29,13 +30,14 @@ Hormond_dialogue = [
         ]
     },
     {
+        "id": "Hormond_quest_complete",
         "text": "Thanks for looking out for Whiskers. He's really important to me.",
         "conditions": [lambda finished_quests: "The Missing Cat" in finished_quests],
         "responses": [
             {
                 "text": "No problem, I hope he's safe and happy.",
                 "requirements": [],
-                "effects": []
+                "effects": {"type": "exit_dialogue"}
             }
         ]
     },
@@ -60,7 +62,7 @@ Hormond_dialogue = [
             {
                 "text": "No thanks, just browsing.",
                 "requirements": [],
-                "effects": []
+                "effects": {"type": "exit_dialogue"}
 
             }
         ]
@@ -70,6 +72,7 @@ Hormond_dialogue = [
 
 Erlhe_dialogue = [
     {
+        "id": "Erhle_greeting",
         "text": "Welcome to my shop! I have a variety of goods for sale, including potions, scrolls, and rare items. Is there anything you're looking for?",
         "conditions": [],
         "responses": [
@@ -83,7 +86,7 @@ Erlhe_dialogue = [
             {
                 "text": "No thanks, just browsing.",
                 "requirements": [],
-                "effects": []
+                "effects": {"type": "exit_dialogue"}
             }
         ]
     }
@@ -91,6 +94,7 @@ Erlhe_dialogue = [
 
 Arlene_dialogue = [
     {
+        "id": "Arlene_greeting",
         "text": "Welcome to my tavern! I can provide you with food, drink, and a place to rest. I also have some information about local rumors and quests if you're interested.",
         "conditions": [],
         "responses": [
@@ -111,11 +115,13 @@ Arlene_dialogue = [
             {
                 "text": "No thanks, just browsing.",
                 "requirements": [],
-                "effects": []
+                "effects": {"type": "exit_dialogue"}
             }
         ]
     },
     {
+        "id": "Arlene_quest_offer",
+
         "text": "Actually, I do have a quest for you. There's been some trouble with noises in the basement. If you could take care of them, I'd really appreciate it.",
         "conditions": [lambda finished_quests: "The Haunted Basement" not in finished_quests],
         "responses": [
@@ -129,7 +135,19 @@ Arlene_dialogue = [
             {
                 "text": "No thanks, I'm not interested in that quest.",
                 "requirements": [],
-                "effects": []
+                "effects": {"type": "exit_dialogue"}
+            }
+        ]
+    },
+    {
+        "id": "Arlene_quest_complete",
+        "text": "Thanks for taking care of the noises in the basement. I was getting really worried about it.",
+        "conditions": [lambda finished_quests: "The Haunted Basement" in finished_quests],
+        "responses": [
+            {
+                "text": "I'm glad I could help!",
+                "requirements": [],
+                "effects": {"type": "exit_dialogue"}
             }
         ]
     }
@@ -137,6 +155,7 @@ Arlene_dialogue = [
 
 Gwen_dialogue = [
     {
+        "id": "Gwen_greeting",
         "text": "Welcome to the royal palace! As the ruler of Greenwood Village, I'm always looking for brave adventurers to help with quests related to the safety and prosperity of our village. Is there anything I can assist you with?",
         "conditions": [],
         "responses": [
@@ -150,8 +169,17 @@ Gwen_dialogue = [
             {
                 "text": "No thanks, just browsing.",
                 "requirements": [],
-                "effects": []
+                "effects": {"type": "exit_dialogue"}
             }
         ]
     }
 ]
+
+
+# Central registry used by main.py to look up dialogue by character dialogue_id.
+dialogue_data = {
+    "Hormond_dialogue": Hormond_dialogue,
+    "Erhle_dialogue": Erlhe_dialogue,
+    "Arlene_dialogue": Arlene_dialogue,
+    "Gwen_dialogue": Gwen_dialogue,
+}

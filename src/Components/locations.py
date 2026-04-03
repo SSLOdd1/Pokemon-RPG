@@ -52,10 +52,10 @@ tavern_basement = Location(
 tavern = Location(
     name="Greenwood Tavern",
     description="A lively tavern where adventurers can gather to share stories, find new quests, and enjoy a drink. The tavern is run by a jovial innkeeper who is always eager to hear about the latest adventures.",
-    characters=[],
+    characters=["Arlene the Tavern Keeper"],
     enemies=[],
     loot=[],
-    exits=["tavern_basement", "greenwood_village"],
+    exits=["tavern_basement", "village"],
     interactions=[]
 )
 
@@ -65,7 +65,7 @@ blacksmith = Location(
     characters=[],
     enemies=[],
     loot=[],
-    exits=["greenwood_village"],
+    exits=["village"],
     interactions=[]
 )
 
@@ -75,7 +75,7 @@ general_store = Location(
     characters=[],
     enemies=[],
     loot=[],
-    exits=["greenwood_village"],
+    exits=["village"],
     interactions=[]
 )
 

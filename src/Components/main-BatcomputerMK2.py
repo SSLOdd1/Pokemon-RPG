@@ -35,12 +35,8 @@ location_registry = {
     "blacksmith": locations.blacksmith,
     "general_store": locations.general_store,
     "tavern_basement": locations.tavern_basement,
-    "royal_palace": locations.royal_palace,
-    "greenwood_forest": locations.greenwood_forest,
-    "orc_camp": locations.orc_camp
+    "royal_palace": locations.royal_palace
 }
-# Create a character registry for easy lookup by name
-character_registry = {character["name"]: character for character in characters.characters}
 
 ## Functions
 # The main functions in this file will include:
@@ -150,44 +146,25 @@ def load_game():
         
         # Restore location
         global location
-        location_name = save_data["metadata"].get("location")
-        location = location_registry.get(location_name)
-        if location is None and location_name:
-            for loc in location_registry.values():
-                if loc.name == location_name:
-                    location = loc
-                    break
-        if location is None:
-            location = locations.greenwood_village
+        location_name = save_data["metadata"]["location"]
+        location = location_registry.get(location_name, locations.greenwood_village)
         update_location_data()  # Update location data after loading location
         
         print(f"Game loaded! Welcome back, {playerdata.player_data['name']}!")
+        main_menu()
 
     except json.JSONDecodeError:
         print("Error: Save file is corrupted.")
         start_menu()
-        return
     except Exception as e:
         print(f"An error occurred while loading the game: {e}")
         start_menu()
-        return
-
-    main_menu()
-
-
-def resolve_character(character_entry):
-    # Normalize character entries so locations can store either full dicts or character names.
-    if isinstance(character_entry, dict):
-        return character_entry
-    if isinstance(character_entry, str):
-        return character_registry.get(character_entry, {"name": character_entry})
-    return None
 
 def main_menu():
     # This function will present the main menu to the player and handle their input to navigate through the different options in the game.
     while True:
         if location is not None:
-            update_location_data()  # Update location data at the start of each loop iteration to ensure it's current, should be redun
+            update_location_data()  # Update location data at the start of each loop iteration to ensure it's current, should be redundant
             print(f"\nYou are currently at: {location.name}")
             print(location.description)
         print("\nMain Menu:")
@@ -233,28 +210,13 @@ def explore():
     # This function will handle the exploration aspect of the game, allowing the player to encounter enemies, find loot, and discover new areas.
     # This function will also update the player's current location variable as they move between different areas in the game world, and provide new information based on the location.
     global location
-    available_exits = [exit_name for exit_name in location.exits if exit_name in location_registry]
-
-    if not available_exits:
-        print("There are no available exits here.")
-        return
-
     print("You see the following exits: ")
-    for index, exit_name in enumerate(available_exits, 1):
-        destination = location_registry[exit_name]
-        print(f"{index}. {destination.name}")
-
-    print("Where would you like to go? Enter a number or an exit key.")
+    for exit_name in location.exits:
+        print(f"- {exit_name}")
+    print("Where would you like to go?")
     choice = input("> ")
-
-    selected_location = None
-    if choice.isdigit() and 1 <= int(choice) <= len(available_exits):
-        selected_location = location_registry[available_exits[int(choice) - 1]]
-    elif choice in available_exits:
-        selected_location = location_registry[choice]
-
-    if selected_location is not None:
-        location = selected_location
+    if choice in location_registry and choice in location.exits:
+        location = location_registry[choice]
         print(f"You move to {location.name}.")
         update_location_data()  # Update location data after moving to a new location
     else:
@@ -401,51 +363,11 @@ def view_quests():
     # This function will allow the player to view their current quests, including any active quests and completed quests.
     # Currently, this is just a placeholder function that can be expanded upon in the future to include a more complex quest system with different quest types, objectives, and rewards.
     print("You review your quests...")
-    print("Active Quests:")
-    for quest in playerdata.quests.get("active", []):
-        print(f"- {quest}")
-    print("Completed Quests:")
-    for quest in playerdata.quests.get("completed", []):
-        print(f"- {quest}")
-    
 
 def talk_to_characters():
     # This function will allow the player to talk to characters in the game world, including NPCs and quest givers.
     # Currently, this is just a placeholder function that can be expanded upon in the future to include a more complex dialogue system with different dialogue options, branching conversations, and character interactions.
     print("You look around for characters to talk to...")
-    if location is not None and location.characters:
-        available_characters = [
-            resolve_character(character_entry)
-            for character_entry in location.characters
-        ]
-        available_characters = [
-            character for character in available_characters
-            if character is not None and "name" in character
-        ]
-
-        if not available_characters:
-            print("You don't see anyone you can talk to.")
-            return
-
-        print("You see the following characters:")
-        for index, character in enumerate(available_characters, 1):
-            print(f"{index}. {character['name']}")
-        print("Who would you like to talk to? Enter a number or a name.")
-        choice = input("> ")
-        selected_character = None
-        if choice.isdigit() and 1 <= int(choice) <= len(available_characters):
-            selected_character = available_characters[int(choice) - 1]
-        else:
-            for character in available_characters:
-                if character['name'].lower() == choice.lower():
-                    selected_character = character
-                    break
-        if selected_character is not None:
-            dialogue_system(selected_character)
-        else:
-            print("Invalid choice. Please try again.")
-    else:
-        print("There is no one here to talk to.")
 
 def fight():
     # This function will handle looking for combat.
@@ -491,54 +413,4 @@ def update_location_data():
         "description": location.description if location else "No description available.",
 }
 
-def dialogue_system(character):
-    # This function will handle the dialogue system for talking to characters in the game world, including NPCs and quest givers.
-    # Currently, this is just a placeholder function that can be expanded upon in the future to include a more complex dialogue system with different dialogue options, branching conversations, and character interactions.
-    print(f"You talk to {character['name']}...")
-
-    dialogue_id = character.get("dialogue_id")
-    if not dialogue_id:
-        print("They have nothing to say right now.")
-        return
-
-    dialogue_registry = getattr(dialogue, "dialogue_data", {})
-    lines = dialogue_registry.get(dialogue_id, [])
-    if not lines:
-        print("They have nothing to say right now.")
-        return
-
-    # Build quick lookup by node id
-    by_id = {line.get("id"): line for line in lines if "id" in line}
-
-    # Start at greeting node if present, otherwise first line
-    current = next((line for line in lines if str(line.get("id", "")).endswith("_greeting")), lines[0])
-
-    while current:
-        print(f"{character['name']}: {current['text']}")
-
-        responses = current.get("responses", [])
-        if not responses:
-            return
-
-        for i, response in enumerate(responses, 1):
-            print(f"{i}. {response['text']}")
-
-        choice = input("> ").strip()
-        if not choice.isdigit() or not (1 <= int(choice) <= len(responses)):
-            print("Invalid choice. Please try again.")
-            continue
-
-        selected = responses[int(choice) - 1]
-
-        # Apply effects here if you want (start_quest, open_shop, etc.)
-        # apply_effects(selected.get("effects", []))
-
-        next_id = selected.get("next_id")
-        if not next_id:
-            return
-
-        current = by_id.get(next_id)
-
-
-if __name__ == "__main__":
-    start_menu()
+start_menu()
