@@ -35,10 +35,9 @@ tavern_basement = Location(
     description="A dimly lit basement beneath the tavern. It is rumored to be haunted, and some say that strange noises can be heard coming from down there at night.",
     characters=[],
     enemies=[
-        {"name": "Rat"},
-        {"name": "Rat"},
-        {"name": "Rat"},
-        {"name": "Giant Spider"}
+        {"enemy_id": "rat", "weight": 0.6},
+        {"enemy_id": "giant_spider", "weight": 0.3},
+        {"enemy_id": "goblin", "weight": 0.1}
     ],
     loot=[
         {"item": "Gold Lump", "probability": 0.5},
@@ -105,9 +104,9 @@ greenwood_forest = Location(
     description="A dense and mysterious forest that surrounds Greenwood Village. It is home to a variety of creatures, some friendly and some hostile.",
     characters=[],
     enemies=[
-        {"name": "Goblin"},
-        {"name": "Goblin"},
-        {"name": "Orc"}
+        {"enemy_id": "goblin", "weight": 0.5},
+        {"enemy_id": "goblin", "weight": 0.5},
+        {"enemy_id": "orc", "weight": 0.1}
     ],
     loot=[
         {"item": "Goblin Ear", "probability": 0.5},
@@ -123,9 +122,9 @@ orc_camp = Location(
     description="A hidden camp deep within the forest, where a group of orcs has set up their base of operations. The camp is heavily guarded and filled with dangerous enemies.",
     characters=[],
     enemies=[
-        {"name": "Orc Warrior"},
-        {"name": "Orc Shaman"},
-        {"name": "Orc Leader"}
+        {"enemy_id": "orc_warrior", "weight": 0.5},
+        {"enemy_id": "orc_shaman", "weight": 0.3},
+        {"enemy_id": "orc_leader", "weight": 0.2}
     ],
     loot=[
         {"item": "Orc Hide", "probability": 0.5},
@@ -135,3 +134,4 @@ orc_camp = Location(
     exits=["greenwood_forest"],
     interactions=[]
 )
+

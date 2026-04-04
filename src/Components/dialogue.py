@@ -9,11 +9,16 @@
 #   - requirements: A list of any requirements that must be met for the player to choose this response. This can include things like the player's current location, quests completed, items in inventory, etc. May be blank if there are no requirements.
 #   - effects: A list of any effects that will occur when the player chooses this response. This can include things like starting a quest, giving the player an item, changing the player's stats, etc. May be blank if there are no effects.
 
+import playerdata
+import quests
+
 Hormond_dialogue = [
     {
         "id": "Hormond_greeting",
         "text": "Have you seen my cat? His name is Whiskers and he's very dear to me. I last saw him around the tavern, but I haven't been able to find him since.",
-        "conditions": [lambda finished_quests: "The Missing Cat" not in finished_quests],
+        "conditions": [
+            lambda ctx: "the_missing_cat" not in ctx["finished_quest_ids"]
+        ],
         "responses": [
             {
                 "text": "I haven't seen your cat, but I'll keep an eye out for him.",
@@ -32,7 +37,9 @@ Hormond_dialogue = [
     {
         "id": "Hormond_quest_complete",
         "text": "Thanks for looking out for Whiskers. He's really important to me.",
-        "conditions": [lambda finished_quests: "The Missing Cat" in finished_quests],
+        "conditions": [
+            lambda ctx: "the_missing_cat" in ctx["finished_quest_ids"]
+        ],
         "responses": [
             {
                 "text": "No problem, I hope he's safe and happy.",
@@ -124,7 +131,10 @@ Arlene_dialogue = [
     {
         "id": "Arlene_no_quests",
         "text": "Sorry, I don't have any quests for you right now. But feel free to check back later, as I might have some new quests for you in the future.",
-        "conditions": [lambda finished_quests, active_quests: "The Haunted Basement" in finished_quests or "The Haunted Basement" in active_quests],
+        "conditions": [
+            lambda ctx: "the_haunted_basement" in ctx["finished_quest_ids"]
+            or "the_haunted_basement" in ctx["active_quest_ids"]
+        ],
         "responses": [
             {
                 "text": "I'll check back later.",
@@ -172,7 +182,9 @@ Arlene_dialogue = [
     {
         "id": "Arlene_quest_complete",
         "text": "Thanks for taking care of the noises in the basement. I was getting really worried about it.",
-        "conditions": [lambda finished_quests: "The Haunted Basement" in finished_quests],
+        "conditions": [
+            lambda ctx: "the_haunted_basement" in ctx["finished_quest_ids"]
+        ],
         "responses": [
             {
                 "text": "I'm glad I could help!",
@@ -213,3 +225,131 @@ dialogue_data = {
     "Arlene_dialogue": Arlene_dialogue,
     "Gwen_dialogue": Gwen_dialogue,
 }
+
+
+def build_dialogue_context():
+    active_ids = {q.get("id") for q in playerdata.active_quests}
+    finished_ids = {q.get("id") for q in playerdata.finished_quests}
+    return {
+        "active_quest_ids": active_ids,
+        "finished_quest_ids": finished_ids,
+    }
+
+
+def conditions_pass(condition_list, context):
+    if not condition_list:
+        return True
+    try:
+        return all(condition(context) for condition in condition_list)
+    except Exception as e:
+        print(f"Condition error: {e}")
+        return False
+
+
+def get_available_responses(node, context):
+    responses = node.get("responses", [])
+    available = []
+    for response in responses:
+        requirements = response.get("requirements", [])
+        if conditions_pass(requirements, context):
+            available.append(response)
+    return available
+
+
+def effect_handler(effect):
+    if not effect:
+        return False
+    if isinstance(effect, dict):
+        effect = [effect]
+
+    should_exit = False
+
+    for e in effect:
+        effect_type = e.get("type")
+        if effect_type == "start_quest":
+            quest_id = e.get("quest_id") or e.get("quest_name")
+            if quest_id:
+                started = quests.start_quest(quest_id)
+                if started:
+                    print(f"Starting quest: {quest_id}")
+            else:
+                print("Error: No quest_id provided for start_quest effect.")
+        elif effect_type == "open_shop":
+            shop_name = e.get("shop_name")
+            print(f"Opening shop: {shop_name} (Shop system not yet implemented)")
+        elif effect_type == "provide_information":
+            info_type = e.get("information_type")
+            print(f"Providing information: {info_type} (Information system not yet implemented)")
+        elif effect_type == "exit_dialogue":
+            print("Exiting dialogue.")
+            should_exit = True
+        else:
+            print(f"Unknown effect type: {effect_type}")
+
+    return should_exit
+
+
+def run_dialogue(character):
+    print(f"You talk to {character['name']}...")
+
+    dialogue_id = character.get("dialogue_id")
+    if not dialogue_id:
+        print("They have nothing to say right now.")
+        return
+
+    lines = dialogue_data.get(dialogue_id, [])
+    if not lines:
+        print("They have nothing to say right now.")
+        return
+
+    context = build_dialogue_context()
+    by_id = {line.get("id"): line for line in lines if "id" in line}
+
+    current = next(
+        (
+            line
+            for line in lines
+            if str(line.get("id", "")).endswith("_greeting")
+            and conditions_pass(line.get("conditions", []), context)
+        ),
+        None,
+    )
+
+    if current is None:
+        print("They have nothing to say right now.")
+        return
+
+    while current:
+        print(f"{character['name']}: {current['text']}")
+
+        responses = get_available_responses(current, context)
+        if not responses:
+            return
+
+        for i, response in enumerate(responses, 1):
+            print(f"{i}. {response['text']}")
+
+        choice = input("> ").strip()
+        if not choice.isdigit() or not (1 <= int(choice) <= len(responses)):
+            print("Invalid choice. Please try again.")
+            continue
+
+        selected = responses[int(choice) - 1]
+
+        should_exit = effect_handler(selected.get("effects"))
+        if should_exit:
+            return
+
+        next_id = selected.get("next_id")
+        if not next_id:
+            return
+
+        context = build_dialogue_context()
+        next_node = by_id.get(next_id)
+        if not next_node:
+            print("They have nothing else to discuss right now.")
+            return
+        if not conditions_pass(next_node.get("conditions", []), context):
+            print("They have nothing else to discuss right now.")
+            return
+        current = next_node
