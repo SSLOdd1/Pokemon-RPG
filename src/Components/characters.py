@@ -15,6 +15,7 @@ characters=[
         "dialogue": ["Have you seen my cat? His name is Whiskers and he's very dear to me. I last saw him around the tavern, but I haven't been able to find him since."],
         "quests": [],
         "location": "blacksmith",
+        "shop_id": "Hormond_blacksmith_shop",
         "interactions": [
             {
                 "type": "crafting",
@@ -32,6 +33,7 @@ characters=[
         "dialogue": [],
         "quests": [],
         "location": "general_store",
+        "shop_id": "Erhle_general_store_shop",
         "interactions": [
             {
                 "type": "commerce",
@@ -45,6 +47,7 @@ characters=[
         "dialogue_id": "Arlene_dialogue",
         "quests": [],
         "location": "tavern",
+        "shop_id": "Arlene_tavern_shop",
         "interactions": [
             {
                 "type": "commerce",
@@ -62,6 +65,7 @@ characters=[
         "dialogue": [],
         "quests": [],
         "location": "royal_palace",
+        "shop_id": None,
         "interactions": [
             {
                 "type": "quest_giver",
