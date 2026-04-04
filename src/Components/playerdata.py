@@ -31,6 +31,13 @@ player_data={
     
 }
 
+## Quest Tracking
+# The player's quest progress is tracked using three lists: active_quests, finished_quests, and failed_quests. Each quest is represented as a dictionary with its name, description, requirements, tasks, and rewards. The player can have multiple active quests at once, and can complete or fail quests based on their actions in the game world.
+
+active_quests = []
+finished_quests = []
+failed_quests = []
+
 ## Inventory System
 # The inventory system allows players to manage their items, including weapons, armor, potions, and other consumables.
 # This is split between the equipment and backpack sections, which store what is currently equipped and what is in the player's inventory, respectively.

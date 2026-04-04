@@ -103,14 +103,16 @@ Arlene_dialogue = [
                 "requirements": [],
                 "effects": [
                     {"type": "open_shop", "shop_name": "Arlene's Tavern"}
-                ]
+                ],
+                "next_id": "shop_response"
             },
             {
                 "text": "Do you have any information about local rumors or quests?",
                 "requirements": [],
                 "effects": [
                     {"type": "provide_information", "information_type": "rumors_and_quests"}
-                ]
+                ],
+                "next_id": "Arlene_quest_offer"
             },
             {
                 "text": "No thanks, just browsing.",
@@ -120,20 +122,48 @@ Arlene_dialogue = [
         ]
     },
     {
+        "id": "Arlene_no_quests",
+        "text": "Sorry, I don't have any quests for you right now. But feel free to check back later, as I might have some new quests for you in the future.",
+        "conditions": [lambda finished_quests, active_quests: "The Haunted Basement" in finished_quests or "The Haunted Basement" in active_quests],
+        "responses": [
+            {
+                "text": "I'll check back later.",
+                "requirements": [],
+                "effects": {"type": "exit_dialogue"}
+            }
+        ]
+    },
+    {
         "id": "Arlene_quest_offer",
 
         "text": "Actually, I do have a quest for you. There's been some trouble with noises in the basement. If you could take care of them, I'd really appreciate it.",
-        "conditions": [lambda finished_quests: "The Haunted Basement" not in finished_quests],
+        "conditions": [
+            lambda ctx: "the_haunted_basement" not in ctx["active_quest_ids"]
+                and "the_haunted_basement" not in ctx["finished_quest_ids"]
+        ],
         "responses": [
             {
                 "text": "Sure, I'll check out the basement.",
                 "requirements": [],
                 "effects": [
                     {"type": "start_quest", "quest_name": "The Haunted Basement"}
-                ]
+                ],
+                "next_id": "Arlene_quest_accepted"
             },
             {
                 "text": "No thanks, I'm not interested in that quest.",
+                "requirements": [],
+                "effects": {"type": "exit_dialogue"}
+            }
+        ]
+    },
+    {
+        "id": "Arlene_quest_accepted",
+        "text": "Thanks so much! I hope you can figure out what's going on down there.",
+        "conditions": [],
+        "responses": [
+            {
+                "text": "I'll do my best!",
                 "requirements": [],
                 "effects": {"type": "exit_dialogue"}
             }

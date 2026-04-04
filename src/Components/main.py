@@ -399,19 +399,22 @@ def manage_inventory():
 
 def view_quests():
     # This function will allow the player to view their current quests, including any active quests and completed quests.
-    # Currently, this is just a placeholder function that can be expanded upon in the future to include a more complex quest system with different quest types, objectives, and rewards.
     print("You review your quests...")
+
     print("Active Quests:")
-    for quest in playerdata.quests.get("active", []):
-        print(f"- {quest}")
-    print("Completed Quests:")
-    for quest in playerdata.quests.get("completed", []):
-        print(f"- {quest}")
-    
+    for quest in playerdata.active_quests:
+        print(f"- {quest['name']}")
+
+    print("Finished Quests:")
+    for quest in playerdata.finished_quests:
+        print(f"- {quest['name']}")
+
+    print("Failed Quests:")
+    for quest in playerdata.failed_quests:
+        print(f"- {quest['name']}")
 
 def talk_to_characters():
     # This function will allow the player to talk to characters in the game world, including NPCs and quest givers.
-    # Currently, this is just a placeholder function that can be expanded upon in the future to include a more complex dialogue system with different dialogue options, branching conversations, and character interactions.
     print("You look around for characters to talk to...")
     if location is not None and location.characters:
         available_characters = [
@@ -507,16 +510,29 @@ def dialogue_system(character):
         print("They have nothing to say right now.")
         return
 
+    context = build_dialogue_context()
+
     # Build quick lookup by node id
     by_id = {line.get("id"): line for line in lines if "id" in line}
 
     # Start at greeting node if present, otherwise first line
-    current = next((line for line in lines if str(line.get("id", "")).endswith("_greeting")), lines[0])
+    current = next(
+        (
+            line for line in lines
+            if str(line.get("id", "")).endswith("_greeting")
+            and conditions_pass(line.get("conditions", []), context)
+        ),
+        None
+    )
+
+    if current is None:
+        print("They have nothing to say right now.")
+        return
 
     while current:
         print(f"{character['name']}: {current['text']}")
 
-        responses = current.get("responses", [])
+        responses = get_available_responses(current, context)
         if not responses:
             return
 
@@ -530,14 +546,81 @@ def dialogue_system(character):
 
         selected = responses[int(choice) - 1]
 
-        # Apply effects here if you want (start_quest, open_shop, etc.)
-        # apply_effects(selected.get("effects", []))
+        should_exit = effect_handler(selected.get("effects"))
+        if should_exit:
+            return
 
         next_id = selected.get("next_id")
         if not next_id:
             return
+        next_node = by_id.get(next_id)
+        if not next_node:
+            return
+        if not conditions_pass(next_node.get("conditions", []), context):
+            print("They have nothing else to discuss right now.")
+            return
+        current = next_node
 
-        current = by_id.get(next_id)
+def build_dialogue_context():
+    active_ids = {q.get("id") for q in playerdata.active_quests}
+    finished_ids = {q.get("id") for q in playerdata.finished_quests}
+    return {
+        "active_quest_ids": active_ids,
+        "finished_quest_ids": finished_ids,
+    }
+
+def conditions_pass(condition_list, context):
+    if not condition_list:
+        return True
+    try:
+        return all(condition(context) for condition in condition_list)
+    except Exception as e:
+        print(f"Condition error: {e}")
+        return False
+
+def get_available_responses(node, context):
+    responses = node.get("responses", [])
+    available = []
+    for response in responses:
+        requirements = response.get("requirements", [])
+        if conditions_pass(requirements, context):
+            available.append(response)
+    return available
+
+def effect_handler(effect):
+    # This function will handle applying effects from dialogue responses, such as starting quests, opening shops, providing information, etc.
+
+    if not effect:
+        return False
+    if isinstance(effect, dict):
+        effect = [effect]
+
+    should_exit = False
+
+    for e in effect:
+        effect_type = e.get("type")
+        if effect_type == "start_quest":
+            quest_id = e.get("quest_id") or e.get("quest_name")
+            if quest_id:
+                started = quests.start_quest(quest_id)
+                if started:
+                    print(f"Starting quest: {quest_id}")
+            else:
+                print("Error: No quest_id provided for start_quest effect.")
+
+        elif effect_type == "open_shop":
+            shop_name = e.get("shop_name")
+            print(f"Opening shop: {shop_name} (Shop system not yet implemented)")
+        elif effect_type == "provide_information":
+            info_type = e.get("information_type")
+            print(f"Providing information: {info_type} (Information system not yet implemented)")
+        elif effect_type == "exit_dialogue":
+            print("Exiting dialogue.")
+            should_exit = True
+        else:
+            print(f"Unknown effect type: {effect_type}")
+
+    return should_exit
 
 
 if __name__ == "__main__":
