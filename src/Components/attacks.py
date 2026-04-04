@@ -29,7 +29,7 @@ player_attacks = {
             'description': 'A powerful smash that deals damage based on your strength.'
         },
         {
-            "name": 'Wooden Stab",
+            "name": "Wooden Stab",
             "damage" : 3,
             "type" : "dexterity",
             "accuracy" : 0.9,

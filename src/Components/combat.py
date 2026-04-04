@@ -65,7 +65,7 @@ def begin_combat(enemy):
     print(f"Enemy: {enemy_name}")
     print(f"Health: {enemy_health}")
     print(f"Special Effects: {', '.join(enemy_effects) if enemy_effects else 'None'}")
-    print("Combat system not yet implemented.")
+    combat_loop(enemy)
 
 
 def start_fight(location):
@@ -76,3 +76,19 @@ def start_fight(location):
 
     print(f"You encounter a {enemy['name']}!")
     begin_combat(enemy)
+
+def combat_loop(enemy):
+    print("Combat loop started.")
+
+    # No attack actions exist yet, so HP values currently do not change during each round.
+    while playerdata.player_data.get("health", 0) > 0 and enemy.get("current_health", 0) > 0:
+        print(
+            f"[Combat Tick] Player HP: {playerdata.player_data.get('health', 0)} | "
+            f"{enemy.get('name', 'Enemy')} HP: {enemy.get('current_health', 0)}"
+        )
+        input("Press Enter to continue combat... ")
+
+    if playerdata.player_data.get("health", 0) <= 0:
+        print("You were defeated.")
+    elif enemy.get("current_health", 0) <= 0:
+        print(f"You defeated {enemy.get('name', 'the enemy')}!")
