@@ -147,6 +147,7 @@ def load_game():
                 loaded_data[key] = playerdata.player_data[key]
         playerdata.player_data = loaded_data
         playerdata.inventory = save_data["inventory"]
+        migrated_count = commerce.migrate_legacy_equipment_from_loot()
         
         # Restore location
         global location
@@ -160,6 +161,9 @@ def load_game():
         if location is None:
             location = locations.greenwood_village
         update_location_data()  # Update location data after loading location
+
+        if migrated_count > 0:
+            print(f"Moved {migrated_count} equippable item(s) from loot to equipment.")
         
         print(f"Game loaded! Welcome back, {playerdata.player_data['name']}!")
 
@@ -263,6 +267,7 @@ def explore():
 def manage_inventory():
     # This function will allow the player to manage their inventory, including equipping items, using potions, and selling loot.
     # This function will also include changing equipment, using items, and small crafting capabilities.
+    commerce.migrate_legacy_equipment_from_loot()
     print("You check your inventory...")
     for section in ["equipped", "backpack"]:
         for item in playerdata.inventory.get(section, []):

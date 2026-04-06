@@ -13,7 +13,16 @@
 # } 
 
 player_attacks = {
-    'wooden_sword' : [
+    'Unarmed': [
+        {
+            'name': 'Punch',
+            'damage': 2,
+            'type': 'attack',
+            'accuracy': 0.8,
+            'description': 'A basic punch with your fists.'
+        },
+    ],
+    'Wooden Sword' : [
         {
             'name': 'Wooden Swing',
             'damage': 3,
@@ -36,7 +45,7 @@ player_attacks = {
             "description": "A controlled stab at a vital area based on your dexterity."
         }
     ],
-    iron_sword :[
+    'Iron Sword' :[
         {
             "name": "Iron Slash",
             "damage": 5,
@@ -59,7 +68,7 @@ player_attacks = {
             "description": "A controlled stab at a vital area, based on your dexterity."
         }
     ],
-    steel_sword: [
+    'Steel Sword': [
          {
             "name": "Steel Slash",
             "damage": 7,

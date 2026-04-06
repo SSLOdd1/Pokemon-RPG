@@ -12,7 +12,7 @@ characters=[
     {
         "name": "Hormond the Blacksmith",
         "description": "A skilled blacksmith who can forge powerful weapons and armor.",
-        "dialogue": ["Have you seen my cat? His name is Whiskers and he's very dear to me. I last saw him around the tavern, but I haven't been able to find him since."],
+        "dialogue_id": "Hormond_dialogue",
         "quests": [],
         "location": "blacksmith",
         "shop_id": "Hormond_blacksmith_shop",
@@ -30,7 +30,7 @@ characters=[
     {
         "name": "Erhle the Merchant",
         "description": "A shrewd merchant who can sell the player a variety of goods, including potions, scrolls, and rare items.",
-        "dialogue": [],
+        "dialogue_id": "Erhle_dialogue",
         "quests": [],
         "location": "general_store",
         "shop_id": "Erhle_general_store_shop",
@@ -62,7 +62,7 @@ characters=[
     {
         "name": "Gwen, Ruler of Greenwood",
         "description": "The benevolent ruler of Greenwood Village, known for her wisdom and kindness.",
-        "dialogue": [],
+        "dialogue_id": "Gwen_dialogue",
         "quests": [],
         "location": "royal_palace",
         "shop_id": None,

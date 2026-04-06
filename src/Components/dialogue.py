@@ -22,22 +22,22 @@ SHOP_NAME_TO_ID = {
 
 Hormond_dialogue = [
     {
-        "id": "Hormond_greeting",
+        "id": "Hormond_quest_offer",
         "text": "Have you seen my cat? His name is Whiskers and he's very dear to me. I last saw him around the tavern, but I haven't been able to find him since.",
         "conditions": [
-            lambda ctx: "the_missing_cat" not in ctx["finished_quest_ids"]
+            lambda ctx: "the_missing_cat" not in ctx["finished_quest_ids"] or "the_missing_cat" not in ctx["active_quest_ids"]
         ],
         "responses": [
             {
                 "text": "I haven't seen your cat, but I'll keep an eye out for him.",
                 "requirements": [],
-                "effects": {"type": "exit_dialogue"}
+                "effects": {"type": "exit_dialogue", "quest_name": "The Missing Cat"}
             },
             {
                 "text": "I think I saw a cat in the tavern basement. Maybe I'll check there.",
                 "requirements": [],
                 "effects": [
-                    {"type": "start_quest", "quest_name": "The Missing Cat"}
+                    {"type": "start_quest", "quest_name": "The Missing Cat"},
                 ]
             }
         ]
@@ -57,6 +57,7 @@ Hormond_dialogue = [
         ]
     },
     {
+        "id": "Hormond_greeting",
         "text": "Welcome to my forge! I can craft powerful weapons and armor for you, using materials that you provide.",
         "conditions": [],
         "responses": [
@@ -73,6 +74,19 @@ Hormond_dialogue = [
                 "effects": [
                     {"type": "open_crafting", "crafting_type": "armor"}
                 ]
+            },
+            {
+                "text": "I'd like to buy some things.",
+                "requirements": [],
+                "effects": [
+                    {"type": "open_shop", "shop_name": "Hormond's Blacksmith"}
+                ]
+            },
+            {
+                "text": "Need anything around the forge?",
+                "requirements": [],
+                "effects": {},
+                "next_id": "Hormond_quest_offer"
             },
             {
                 "text": "No thanks, just browsing.",

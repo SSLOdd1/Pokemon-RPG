@@ -4,6 +4,11 @@
 # The commerce system will be integrated with the player's inventory and gold, allowing the player to manage their resources and make informed decisions about their purchases and sales. The player can also use the commerce system to acquire rare or powerful items that may not be available through other means, such as looting or crafting.
 
 import playerdata
+import loot as loot_catalog
+
+WEAPON_NAMES = {weapon.name for weapon in loot_catalog.weapons}
+ARMOR_NAMES = {armor.name for armor in loot_catalog.armors}
+ACCESSORY_NAMES = {accessory.name for accessory in loot_catalog.accessories}
 
 def list_items_for_sale(shop_id):
     """Returns a list of items for the given shop id."""
@@ -43,8 +48,56 @@ def handle_shop(shop_id):
         print(message)
 
 def _add_item_to_backpack(item_name, qty):
-    loot_bag = playerdata.inventory["backpack"].setdefault("loot", {})
+    backpack = playerdata.inventory.setdefault("backpack", {})
+    equipment = backpack.setdefault("equipment", {})
+
+    if item_name in WEAPON_NAMES:
+        weapons_bag = equipment.setdefault("weapons", [])
+        weapons_bag.extend([item_name] * qty)
+        return
+
+    if item_name in ARMOR_NAMES:
+        armor_bag = equipment.setdefault("armor", [])
+        armor_bag.extend([item_name] * qty)
+        return
+
+    if item_name in ACCESSORY_NAMES:
+        accessories_bag = equipment.setdefault("accessories", [])
+        accessories_bag.extend([item_name] * qty)
+        return
+
+    loot_bag = backpack.setdefault("loot", {})
     loot_bag[item_name] = loot_bag.get(item_name, 0) + qty
+
+
+def migrate_legacy_equipment_from_loot():
+    """Moves equippable items from legacy loot storage into equipment lists."""
+    backpack = playerdata.inventory.setdefault("backpack", {})
+    loot_bag = backpack.setdefault("loot", {})
+    equipment = backpack.setdefault("equipment", {})
+    weapons_bag = equipment.setdefault("weapons", [])
+    armor_bag = equipment.setdefault("armor", [])
+    accessories_bag = equipment.setdefault("accessories", [])
+
+    migrated_count = 0
+    for item_name, qty in list(loot_bag.items()):
+        if not isinstance(qty, int) or qty <= 0:
+            continue
+
+        if item_name in WEAPON_NAMES:
+            weapons_bag.extend([item_name] * qty)
+            del loot_bag[item_name]
+            migrated_count += qty
+        elif item_name in ARMOR_NAMES:
+            armor_bag.extend([item_name] * qty)
+            del loot_bag[item_name]
+            migrated_count += qty
+        elif item_name in ACCESSORY_NAMES:
+            accessories_bag.extend([item_name] * qty)
+            del loot_bag[item_name]
+            migrated_count += qty
+
+    return migrated_count
 
 
 def buy_item(shop_id, item_name, qty=1):
