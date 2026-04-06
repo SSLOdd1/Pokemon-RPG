@@ -1,6 +1,6 @@
 {
     "metadata": {
-        "save_time": "2026-04-04T07:50:02.749229",
+        "save_time": "2026-04-05T20:58:36.865064",
         "version": "1.0",
         "character_name": "Maxi",
         "level": 1,
@@ -13,7 +13,7 @@
         "mana": 50,
         "experience": 0,
         "skills": [],
-        "gold": 3,
+        "gold": 18,
         "attack": 1,
         "defense": 1,
         "strength": 1,
@@ -36,7 +36,9 @@
         "backpack": {
             "potions": {},
             "crafting_materials": {},
-            "loot": {},
+            "loot": {
+                "Bread": 1
+            },
             "quest_items": {},
             "equipment": {
                 "weapons": [],

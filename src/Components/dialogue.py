@@ -13,6 +13,13 @@ import playerdata
 import quests
 import commerce
 
+
+SHOP_NAME_TO_ID = {
+    "Arlene's Tavern": "Arlene_tavern_shop",
+    "Erhle's General Store": "Erhle_general_store_shop",
+    "Hormond's Blacksmith": "Hormond_blacksmith_shop",
+}
+
 Hormond_dialogue = [
     {
         "id": "Hormond_greeting",
@@ -277,11 +284,13 @@ def effect_handler(effect):
                 print("Error: No quest_id provided for start_quest effect.")
         elif effect_type == "open_shop":
             shop_id = e.get("shop_id")
+            if not shop_id:
+                shop_name = e.get("shop_name")
+                shop_id = SHOP_NAME_TO_ID.get(shop_name)
             if shop_id:
-                print(f"Opening shop: {shop_id}")
                 commerce.handle_shop(shop_id)
             else:
-                print("Error: No shop_name provided for open_shop effect.")
+                print("Error: No valid shop_id/shop_name provided for open_shop effect.")
         elif effect_type == "provide_information":
             info_type = e.get("information_type")
             print(f"Providing information: {info_type} (Information system not yet implemented)")
