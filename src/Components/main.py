@@ -16,6 +16,7 @@ import os
 import random
 import math
 import dialogue
+import commerce
 import combat as combat_system
 from datetime import datetime
 

@@ -70,6 +70,9 @@ loot = [
     Item("Orcish Axe", 75, "A heavy axe used by orc warriors. It is powerful but unwieldy."),
     Item("Warrior's Helm", 60, "A sturdy helmet worn by warriors. It provides good protection in combat."),
     Item("Orcish Banner", 150, "A banner that represents the orc warlord's clan. It is highly valuable and can be sold for a high price."),
+    Item("Bread", 5, "A loaf of bread. It can be eaten to restore a small amount of health."),
+    Item("Ale", 10, "A mug of ale. It can be consumed to restore a small amount of health."),
+    Item("Stew", 15, "A hearty bowl of stew. It can be eaten to restore a moderate amount of health.")
 ]
 
 weapons = [

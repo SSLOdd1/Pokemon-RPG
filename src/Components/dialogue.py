@@ -11,6 +11,7 @@
 
 import playerdata
 import quests
+import commerce
 
 Hormond_dialogue = [
     {
@@ -275,8 +276,12 @@ def effect_handler(effect):
             else:
                 print("Error: No quest_id provided for start_quest effect.")
         elif effect_type == "open_shop":
-            shop_name = e.get("shop_name")
-            print(f"Opening shop: {shop_name} (Shop system not yet implemented)")
+            shop_id = e.get("shop_id")
+            if shop_id:
+                print(f"Opening shop: {shop_id}")
+                commerce.handle_shop(shop_id)
+            else:
+                print("Error: No shop_name provided for open_shop effect.")
         elif effect_type == "provide_information":
             info_type = e.get("information_type")
             print(f"Providing information: {info_type} (Information system not yet implemented)")
