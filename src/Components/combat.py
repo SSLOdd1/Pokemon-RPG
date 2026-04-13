@@ -89,12 +89,55 @@ def resolve_attack(target, attack):
     if not hit:
         print("The attack missed!")
 
+
+def grant_enemy_loot(enemy):
+    loot_table = enemy.get("loot", []) if isinstance(enemy, dict) else []
+
+    backpack_loot = playerdata.inventory.setdefault("backpack", {}).setdefault("loot", {})
+
+    # Normalize older loot-entry formats to integer quantities.
+    for item_name, entry in list(backpack_loot.items()):
+        if isinstance(entry, dict):
+            backpack_loot[item_name] = max(0, int(entry.get("quantity", 0)))
+
+    if not loot_table:
+        return []
+
+    dropped_items = []
+    for entry in loot_table:
+        if not isinstance(entry, dict):
+            continue
+
+        item_name = entry.get("item")
+        probability = entry.get("probability", 0.0)
+        if not item_name:
+            continue
+
+        if random.random() <= max(0.0, min(1.0, probability)):
+            dropped_items.append(item_name)
+
+    if not dropped_items:
+        return []
+
+    for item_name in dropped_items:
+        current_qty = backpack_loot.get(item_name, 0)
+        if isinstance(current_qty, dict):
+            current_qty = int(current_qty.get("quantity", 0))
+        backpack_loot[item_name] = max(0, int(current_qty)) + 1
+
+    return dropped_items
+
 def defeat():
     print("You have been defeated.")
     # Will later add option to respawn at nearest village, at the cost of some gold, or to load from a player home, costing no gold.
 
 def victory(enemy):
     print(f"You defeated {enemy.get('name', 'the enemy')}!")
+    dropped_items = grant_enemy_loot(enemy)
+    if dropped_items:
+        print(f"Loot dropped: {', '.join(dropped_items)}")
+    else:
+        print("No loot dropped this time.")
     # Will later add experience gain, loot drops, and potential quest progression here.
 
 
