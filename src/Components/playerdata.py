@@ -2,6 +2,12 @@
 ## This file contains the player's data, including their name, level, health, mana, experience points, and inventory.
 ## The player's data is stored in a dictionary, which can be easily accessed and modified throughout the game. The player's inventory is also stored in a separate dictionary, which includes their equipped items and backpack items. This allows for easy management of the player's equipment and inventory throughout the game.
 
+import math
+
+
+BASE_LEVEL_XP = 100
+LEVEL_XP_GROWTH = 1.25
+
 ## Player Data
 # The player's data is stored in a dictionary with the following keys:
 # - name: The player's name.
@@ -30,6 +36,42 @@ player_data={
 
     
 }
+
+
+def experience_to_next_level(level=None):
+    if level is None:
+        level = player_data.get("level", 1)
+
+    level = max(1, int(level))
+    return math.ceil(BASE_LEVEL_XP * (LEVEL_XP_GROWTH ** (level - 1)))
+
+
+def process_level_ups():
+    current_level = max(1, int(player_data.get("level", 1)))
+    current_experience = max(0, int(player_data.get("experience", 0)))
+    levels_gained = 0
+
+    while True:
+        required_xp = experience_to_next_level(current_level)
+        if current_experience < required_xp:
+            break
+
+        current_experience -= required_xp
+        current_level += 1
+        levels_gained += 1
+
+    player_data["level"] = current_level
+    player_data["experience"] = current_experience
+    return levels_gained
+
+
+def add_experience(amount):
+    amount = int(amount)
+    if amount <= 0:
+        return 0
+
+    player_data["experience"] = max(0, int(player_data.get("experience", 0))) + amount
+    return process_level_ups()
 
 ## Quest Tracking
 # The player's quest progress is tracked using three lists: active_quests, finished_quests, and failed_quests. Each quest is represented as a dictionary with its name, description, requirements, tasks, and rewards. The player can have multiple active quests at once, and can complete or fail quests based on their actions in the game world.

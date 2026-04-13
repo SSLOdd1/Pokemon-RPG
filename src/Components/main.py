@@ -490,9 +490,14 @@ def talk_to_characters():
 
 def fight():
     # This function will handle looking for combat.
+    global location
     print("You prepare for battle...")
     if location is not None and location.enemies:
-        combat_system.start_fight(location)
+        outcome = combat_system.start_fight(location)
+        if outcome == "defeat":
+            location = locations.greenwood_village
+            update_location_data()
+            print("You wake up back in Greenwood Village.")
     else:
         print("There are no enemies here.")
 
