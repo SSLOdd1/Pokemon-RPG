@@ -82,9 +82,12 @@ def resolve_attack(target, attack):
     damage = attack.get("damage", 0)
     accuracy = attack.get("accuracy", 1.0)
     defense = target.get("defense", 0)
-    damage_dealt = max(0, damage - defense) * (1 if random.random() <= accuracy else 0)
+    hit = random.random() <= accuracy
+    damage_dealt = max(0, damage - defense) if hit else 0
     target["current_health"] = max(0, target.get("current_health", 0) - damage_dealt)
     print(f"You use {attack['name']} against {target.get('name', 'the enemy')}, doing {damage_dealt} damage!")
+    if not hit:
+        print("The attack missed!")
 
 def defeat():
     print("You have been defeated.")

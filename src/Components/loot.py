@@ -72,7 +72,9 @@ loot = [
     Item("Orcish Banner", 150, "A banner that represents the orc warlord's clan. It is highly valuable and can be sold for a high price."),
     Item("Bread", 5, "A loaf of bread. It can be eaten to restore a small amount of health."),
     Item("Ale", 10, "A mug of ale. It can be consumed to restore a small amount of health."),
-    Item("Stew", 15, "A hearty bowl of stew. It can be eaten to restore a moderate amount of health.")
+    Item("Stew", 15, "A hearty bowl of stew. It can be eaten to restore a moderate amount of health."),
+    Item("Cheese", 10, "A piece of cheese. It can be eaten to restore a small amount of health."),
+
 ]
 
 weapons = [

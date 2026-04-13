@@ -31,6 +31,21 @@ ENEMIES = {
             {"item": "Giant Spider Leg", "probability": 0.2},
         ],
     },
+    "rat": {
+        "id": "rat",
+        "name": "Giant Rat",
+        "health": 20,
+        "attack": 3,
+        "defense": 1,
+        "type": "normal",
+        "special_effects": [],
+        "experience": 10,
+        "loot": [
+            {"item": "Rat Tail", "probability": 0.5},
+            {"item": "Cheese", "probability": 0.3},
+            {"item": "Gold Lump", "probability": 0.2},
+        ],
+    },
 }
 
 def get_enemy_by_id(enemy_id):
