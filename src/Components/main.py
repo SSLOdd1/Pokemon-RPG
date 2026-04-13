@@ -263,7 +263,42 @@ def explore():
         update_location_data()  # Update location data after moving to a new location
     else:
         print("Invalid choice. Please try again.")
+
+
+def _aggregate_item_quantities(items):
+    if isinstance(items, dict):
+        counts = {}
+        for item_name, value in items.items():
+            if isinstance(value, int):
+                qty = value
+            elif isinstance(value, dict):
+                qty = value.get("quantity", 0)
+            else:
+                qty = 0
+            counts[item_name] = max(0, int(qty))
+        return counts
+
+    if isinstance(items, list):
+        counts = {}
+        for item_name in items:
+            if not item_name:
+                continue
+            counts[item_name] = counts.get(item_name, 0) + 1
+        return counts
+
+    return {}
+
+
+def _print_item_quantities(items):
+    counts = _aggregate_item_quantities(items)
+    if not counts:
+        print("- Empty")
+        return
+
+    for item_name in sorted(counts):
+        print(f"- {item_name} : {counts[item_name]}")
     
+
 def manage_inventory():
     # This function will allow the player to manage their inventory, including equipping items, using potions, and selling loot.
     # This function will also include changing equipment, using items, and small crafting capabilities.
@@ -371,28 +406,26 @@ def manage_inventory():
         choice = input("> ")
         if choice.isdigit() and 1 <= int(choice) <= len(sections):
             choice = sections[int(choice) - 1]
-        if choice in ["potions", "crafting_materials", "loot", "quest_items"]:
+        if choice in ["potions", "crafting_materials", "loot", "quest_items", "equipment"]:
             print(f"{choice}:")
-            for item in playerdata.inventory['backpack'].get(choice, []):
-                print(f"- {item}")
+            if choice != "equipment":
+                _print_item_quantities(playerdata.inventory['backpack'].get(choice, {}))
             if choice == "potions":
                 pass  # This is where the player would be able to use potions from their backpack
             elif choice == "crafting_materials":
                 pass  # This is where the player would be able to use crafting materials from their backpack
             elif choice == "loot":
-                for item in playerdata.inventory['backpack']['loot']:
-                    print(f"- {item}")
+                pass
             elif choice == "quest_items":
-                for item in playerdata.inventory['backpack']['quest_items']:
-                    print(f"- {item}")
+                pass
             elif choice == "equipment":
                 print("You check your backpack for equipment... You have the following weapons, armor, and accessories: ")
-                for item in playerdata.inventory['backpack']['equipment']['weapons']:
-                    print(f"- {item}")
-                for item in playerdata.inventory['backpack']['equipment']['armor']:
-                    print(f"- {item}")
-                for item in playerdata.inventory['backpack']['equipment']['accessories']:
-                    print(f"- {item}")
+                print("Weapons:")
+                _print_item_quantities(playerdata.inventory['backpack']['equipment'].get('weapons', []))
+                print("Armor:")
+                _print_item_quantities(playerdata.inventory['backpack']['equipment'].get('armor', []))
+                print("Accessories:")
+                _print_item_quantities(playerdata.inventory['backpack']['equipment'].get('accessories', []))
         elif choice == "0":
             return
         else:
